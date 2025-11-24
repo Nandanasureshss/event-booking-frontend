@@ -1,0 +1,77 @@
+
+
+.steps-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.step-card {
+  background:white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  padding: 1.3rem 1.1rem;
+  text-align: center;
+}
+.step-card .parastephomepage {
+  font-size: 1.01rem;
+  /* line-height: 1.; */
+}
+
+
+.step-icon-wrap {
+  width: 120px;      
+  height: 120px;     
+  display: flex;
+  align-items: center;   /* vertically center */
+  justify-content: center; /* horizontally center */
+  margin: 0 auto;          /* centers the whole circle inside parent */
+}
+.titlestepshomepage{
+  background: linear-gradient(90.14deg, #4AA5F4 2.05%, #C863F6 96.34%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+.step-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  
+}
+
+
+
+
+.step-card h3 {
+  font-size: 0.98rem;
+  margin-bottom: 0.5rem;
+}
+.section-title{
+    color: black;
+}
+.step-card p {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}

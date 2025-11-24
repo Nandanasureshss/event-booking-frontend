@@ -1,0 +1,233 @@
+/* MAIN HERO */
+.hero-swiper {
+  width: 100%;
+  height: 95vh;
+  min-height: 480px;
+  position: relative;
+}
+
+.hero-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;  /* make slide fill full height */
+  display: flex;
+  align-items: center;   /* allows vertical shifting */
+}
+
+/* Background image */
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.55);
+  z-index: 1;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 3;
+  margin-top: 6rem;  /* THIS will finally push it downward */
+}
+
+
+.hero-top-filter {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  width: max-content;
+  margin: 0 auto 2rem ;
+
+  padding: 1rem 2rem ;
+  background: rgba(25, 32, 48, 0.55);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+
+  z-index: 4;
+}
+
+/* Filter text items */
+.filter-item {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+/* Arrow icon */
+.arrow {
+  font-size: 1rem;
+  opacity: 0.8;
+  display: inline-block;
+  transform: translateY(6px); /* moves arrow downward */
+}
+
+
+/* Vertical divider */
+.divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+
+
+.search-btn:hover {
+  transform: translateY(-2px);
+}
+
+
+.hero-content h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  max-width: 600px;
+  color: white;
+}
+
+.hero-content p {
+  font-size: 1.05rem;
+  max-width: 420px;
+  color: #eee;
+}
+
+.hero-primary {
+  background: linear-gradient(90deg, #4aa5f4, #c863f6);
+  padding: 0.6rem 1.4rem;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 180px;
+
+  background: rgba(25, 32, 48, 0.85);
+
+  border-radius: 12px;
+  padding: 0.6rem 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+.filter-item {
+  position: relative;
+}
+/* Popup wrapper */
+.calendar-popup {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 300;
+
+  /* Transparent dark background */
+  background: rgba(10, 10, 20, 0.55);
+
+  padding: 0.8rem;
+  border-radius: 16px;
+
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+
+  /* make it smaller */
+  transform: scale(0.88);
+  transform-origin: top left;
+}
+
+
+/* Calendar container */
+.react-calendar {
+  width: 260px !important;    /* smaller */
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 0.8rem;
+}
+
+
+/* Navigation (month + arrows) */
+.react-calendar__navigation button {
+  color: #fff !important;
+  background: transparent !important;
+  font-size: 0.9rem;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.react-calendar__navigation button:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+
+/* Weekday labels (Mon, Tue...) */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #ddd;
+}
+
+
+/* Each date tile */
+.react-calendar__tile {
+  background: transparent !important;
+  color: #fff !important;
+  padding: 8px 0 !important;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+
+/* Hover effect */
+.react-calendar__tile:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+
+/* Selected date */
+.react-calendar__tile--active {
+  background: #4aa5f4 !important;
+  color: white !important;
+  border-radius: 10px;
+}
+
+
+/* Today's date */
+.react-calendar__tile--now {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-radius: 10px;
+  color: #fff !important;
+}
+
+.dropdown-menu div {
+  padding: 0.65rem 1.2rem;
+  color: white;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.dropdown-menu div:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.swiper-pagination-bullet {
+  width: 9px;
+  height: 9px;
+  background: white;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffffff;
+  opacity: 1;
+}
