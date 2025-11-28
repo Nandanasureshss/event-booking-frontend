@@ -12,7 +12,6 @@ function Home() {
       <PopularEvents />
       <Steps />
       <Categories />
-      <ProfilePage/>
     </>
   );
 }

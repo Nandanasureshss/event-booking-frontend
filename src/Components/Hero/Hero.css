@@ -1,4 +1,3 @@
-/* MAIN HERO */
 .hero-swiper {
   width: 100%;
   height: 95vh;
@@ -9,12 +8,10 @@
 .hero-slide {
   position: relative;
   width: 100%;
-  height: 100%;  /* make slide fill full height */
+  height: 100%;  
   display: flex;
-  align-items: center;   /* allows vertical shifting */
+  align-items: center;  
 }
-
-/* Background image */
 .hero-bg {
   position: absolute;
   top: 0;
@@ -29,7 +26,7 @@
 .hero-inner {
   position: relative;
   z-index: 3;
-  margin-top: 6rem;  /* THIS will finally push it downward */
+  margin-top: 6rem;  
 }
 
 
@@ -50,7 +47,6 @@
   z-index: 4;
 }
 
-/* Filter text items */
 .filter-item {
   font-size: 1.2rem;
   font-weight: 500;
@@ -61,16 +57,14 @@
   cursor: pointer;
 }
 
-/* Arrow icon */
 .arrow {
   font-size: 1rem;
   opacity: 0.8;
   display: inline-block;
-  transform: translateY(6px); /* moves arrow downward */
+  transform: translateY(6px); 
 }
 
 
-/* Vertical divider */
 .divider {
   width: 1px;
   height: 28px;
@@ -124,31 +118,23 @@
 .filter-item {
   position: relative;
 }
-/* Popup wrapper */
 .calendar-popup {
   position: absolute;
   top: 50px;
   left: 0;
   z-index: 300;
 
-  /* Transparent dark background */
   background: rgba(10, 10, 20, 0.55);
-
   padding: 0.8rem;
   border-radius: 16px;
-
-
   box-shadow: 0 8px 25px rgba(0,0,0,0.45);
-
-  /* make it smaller */
   transform: scale(0.88);
   transform-origin: top left;
 }
 
 
-/* Calendar container */
 .react-calendar {
-  width: 260px !important;    /* smaller */
+  width: 260px !important;  
   background: transparent !important;
   border: none !important;
   color: #fff !important;
@@ -156,7 +142,6 @@
 }
 
 
-/* Navigation (month + arrows) */
 .react-calendar__navigation button {
   color: #fff !important;
   background: transparent !important;
@@ -170,7 +155,6 @@
 }
 
 
-/* Weekday labels (Mon, Tue...) */
 .react-calendar__month-view__weekdays {
   text-align: center;
   font-size: 0.75rem;
@@ -178,7 +162,6 @@
 }
 
 
-/* Each date tile */
 .react-calendar__tile {
   background: transparent !important;
   color: #fff !important;

@@ -1,0 +1,133 @@
+.myOrdersPage {
+  width: 100%;
+  padding: 40px 60px;
+  font-family: "Poppins", sans-serif;
+}
+
+.pageTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: black;
+}
+
+.ordersContainer {
+  background: #f8f8f8;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+/* TABS */
+.ordersTabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.ordersTabs span {
+  font-size: 15px;
+  cursor: pointer;
+  color: black;
+}
+
+.tabActive {
+  font-weight: 700;
+  color: black;
+}
+
+/* ORDER LIST */
+.ordersList {
+  margin-top: 10px;
+}
+
+/* ORDER CARD */
+.orderCard {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 18px;
+}
+
+.orderTotal {
+  font-weight: 700;
+  color: black;
+}
+
+/* BODY */
+.orderBody {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.orderImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.orderInfo {
+  flex: 1;
+}
+
+.orderTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: black;
+}
+
+.orderPrice {
+  font-size: 14px;
+  color: gray;
+}
+
+/* BUTTON */
+.detailsBtn {
+  background: #e7f1ff;
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .myOrdersPage {
+    padding: 20px;
+  }
+
+  .orderBody {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .orderImage {
+    width: 100%;
+    height: 180px;
+  }
+
+  .detailsBtn {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .orderHeader {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

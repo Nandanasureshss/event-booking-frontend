@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { BsCart2 } from "react-icons/bs";
 import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 function Header() {
   const [openProfile, setOpenProfile] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -16,10 +18,10 @@ function Header() {
             </div>
 
             <nav className="header-nav">
-              <a href="#">Home</a>
-              <a href="#">Event</a>
-              <a href="#">Category</a>
-              <a href="#">Contact</a>
+              <a onClick={() => navigate("/")}>Home</a>
+              <a onClick={() => navigate("/events")}>Event</a>
+              <a onClick={() => navigate("/categories")}>Category</a>
+              <a onClick={() => navigate("/contact")}>Contact</a>
             </nav>
           </div>
 
@@ -62,17 +64,52 @@ function Header() {
                 className="profile-pic"
                 onClick={() => {
                   setOpenProfile(false);
-                  window.location.href = "/profile";
+                  navigate("/profile");
                 }}
               />
-
             </div>
 
             <div className="menu-item">Notifications</div>
-            <div className="menu-item">Wishlist</div>
-            <div className="menu-item">Upcoming Events</div>
-            <div className="menu-item">Your Orders</div>
-            <div className="menu-item">Payment Methods</div>
+            <div
+              className="menu-item"
+              onClick={() => {
+                setOpenProfile(false);
+                navigate("/wishlist");
+              }}
+            >
+              Wishlist
+            </div>
+
+            <div
+              className="menu-item"
+              onClick={() => {
+                setOpenProfile(false);
+                navigate("/upcoming-events");
+              }}
+            >
+              Upcoming Events
+            </div>
+
+            <div
+              className="menu-item"
+              onClick={() => {
+                setOpenProfile(false);
+                navigate("/myorder");   
+              }}
+            >
+              Your Orders
+            </div>
+
+            <div
+              className="menu-item"
+              onClick={() => {
+                setOpenProfile(false);
+                navigate("/payment-options");
+              }}
+            >
+              Payment Methods
+            </div>
+
             <div className="menu-item">Account & Settings</div>
             <div className="menu-item">Help & Support</div>
 

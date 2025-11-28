@@ -11,7 +11,6 @@ function ProfilePage() {
 
         <div className="profile-card">
 
-          {/* Header Gradient Section */}
           <div className="profile-header-section">
             <img 
               src="/assets/profile.jpg" 
@@ -22,7 +21,6 @@ function ProfilePage() {
             <h2 className="profile-title">Hey! Example</h2>
           </div>
 
-          {/* Account Details */}
           <div className="profile-details">
             <h3>Account Details</h3>
 

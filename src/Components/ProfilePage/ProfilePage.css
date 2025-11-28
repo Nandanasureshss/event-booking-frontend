@@ -2,8 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding: 2rem 1rem 4rem;
 }
 
 .profile-card {
@@ -14,10 +13,9 @@
   overflow: hidden;
 }
 
-/* Gradient Header */
 .profile-header-section {
   background: linear-gradient(90deg, #4a9df3, #d46efc);
-  padding: 2rem;
+  padding: 2.5rem 1rem 3rem;
   text-align: center;
   position: relative;
 }
@@ -35,15 +33,13 @@
   border: 4px solid #fff;
   object-fit: cover;
   position: absolute;
-  top: 60%;
+  top: 72%;
   left: 50%;
   transform: translate(-50%, -20%);
 }
 
-/* Details Section */
-
 .profile-details {
-  padding: 3.5rem 2rem 2rem;
+  padding: 4rem 2rem 2rem;
 }
 
 .profile-details h3 {
@@ -84,4 +80,76 @@
   cursor: pointer;
   margin-top: 1rem;
   font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+  .profile-card {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-card {
+    width: 95%;
+  }
+
+  .profile-header-section {
+    padding: 2rem 1rem 3.5rem;
+  }
+
+  .profile-picture {
+    width: 75px;
+    height: 75px;
+    top: 78%;
+  }
+
+  .profile-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .profile-label {
+    width: 100%;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .profile-value {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .profile-header-section {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .profile-title {
+    font-size: 1.3rem;
+  }
+
+  .profile-picture {
+    width: 70px;
+    height: 70px;
+    top: 80%;
+  }
+
+  .profile-details {
+    padding: 4rem 1rem 2rem;
+  }
+
+  .profile-row {
+    font-size: 0.9rem;
+    padding: 0.8rem 0;
+  }
+
+  .edit-button {
+    font-size: 0.85rem;
+  }
 }

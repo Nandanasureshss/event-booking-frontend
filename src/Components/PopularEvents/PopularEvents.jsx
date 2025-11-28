@@ -1,5 +1,6 @@
 import React from "react";
 import "./PopularEvents.css";
+import { useNavigate } from "react-router-dom";
 
 const mockEvents = [
   {
@@ -29,6 +30,8 @@ const mockEvents = [
 ];
 
 function PopularEvents() {
+  const navigate = useNavigate();
+
   return (
     <section className="section">
       <div className="page-container">
@@ -50,7 +53,13 @@ function PopularEvents() {
                 <h3 className="event-title">{event.title}</h3>
                 <p className="event-meta">{event.location}</p>
                 <p className="event-meta event-meta-date">{event.date}</p>
-                <button className="event-cta">Book Now</button>
+
+                <button
+                  className="event-cta"
+                  onClick={() => navigate("/event-details")}
+                >
+                  Book Now
+                </button>
               </div>
             </article>
           ))}

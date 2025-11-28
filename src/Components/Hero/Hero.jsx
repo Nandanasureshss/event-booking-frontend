@@ -65,7 +65,7 @@ function Hero() {
 
                                 <div className="hero-top-filter">
                                     <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}>
-                                        Abu Dhabi <span className="arrow"><IoIosArrowDown /></span>
+                                        Locatio <span className="arrow"><IoIosArrowDown /></span>
 
                                         {openDropdown === 1 && (
                                             <div className="dropdown-menu">

@@ -1,0 +1,233 @@
+
+.top-section {
+  width: 100%;
+  position: relative;
+  margin-bottom: 60px; 
+}
+
+.carousel-wrapper {
+  width: 100%;
+  height: 360px;
+  margin-bottom: 0;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.allevents-top-filter {
+  position: absolute;        
+  bottom: 280px;            
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  background: rgba(25, 32, 48, 0.55);
+  padding: 1rem 2rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+
+  width: max-content;
+  z-index: 4;
+}
+
+/* Filter Items */
+.filter-item {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-item svg {
+  font-size: 18px;
+}
+
+/* Divider Line */
+.divider {
+  width: 1px;
+  background: #ddd;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: rgba(255, 255, 255, 0.073);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 150px;
+  z-index: 20;
+}
+
+.dropdown-menu div {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.dropdown-menu div:hover {
+  background: #f3f3f3;
+}
+
+/* Calendar popup */
+.calendar-popup {
+  position: absolute;
+  top: 40px;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 0 40px;
+}
+
+.event-card {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* Card Image */
+.card-image {
+  width: 100%;
+  height: 330px;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #fff;
+  color: orange;
+  padding: 4px 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+/* Heart icon */
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  color: white;
+}
+
+/* Text inside image */
+.eventheading {
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  font-size: 28px;
+  color: white;
+  font-weight: 700;
+}
+
+.eventpara {
+  position: absolute;
+  top: 85px;
+  left: 16px;
+  font-size: 18px;
+  color: white;
+  font-weight: 400;
+}
+
+/* Bottom purple section */
+.bottom-purple {
+  width: 100%;
+  background: linear-gradient(
+    95.14deg,
+    rgba(6, 50, 88, 0.62) 6.03%,
+    rgba(215, 91, 246, 0.25) 99.75%
+  );
+  padding: 16px;
+  color: white;
+  border-radius: 0 0 18px 18px;
+}
+
+.bottom-purple p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* Bottom row */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Book button */
+.book-btn {
+  background: linear-gradient(90deg, #c864f6, #9071ff);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  font-size: 38px;
+  margin: 40px 0;
+  font-weight: 700;
+}
+
+/* ====================== */
+/* RESPONSIVE */
+/* ====================== */
+@media (max-width: 1024px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .allevents-top-filter {
+    flex-direction: column;
+    gap: 12px;
+    width: 90%;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}

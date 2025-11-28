@@ -20,7 +20,6 @@
 }
 .step-card .parastephomepage {
   font-size: 1.01rem;
-  /* line-height: 1.; */
 }
 
 
@@ -28,9 +27,9 @@
   width: 120px;      
   height: 120px;     
   display: flex;
-  align-items: center;   /* vertically center */
-  justify-content: center; /* horizontally center */
-  margin: 0 auto;          /* centers the whole circle inside parent */
+  align-items: center;  
+  justify-content: center; 
+  margin: 0 auto;         
 }
 .titlestepshomepage{
   background: linear-gradient(90.14deg, #4AA5F4 2.05%, #C863F6 96.34%);
