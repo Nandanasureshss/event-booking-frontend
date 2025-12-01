@@ -12,6 +12,8 @@ import EventDetails from "./Components/EventDetails/EventDetails.jsx";
 import Cart from "./Components/Cart/Cart.jsx";
 import MyOrders from "./Components/MyOrders/MyOrders.jsx";
 import OrderDetails from "./Components/OrderDetails/OrderDetails.jsx";
+import AdminLandingPage from "./Components/AdminLandingPage/AdminLandingPage.jsx";
+import AdminSidebar from "./pages/AdminSidebar/AdminSidebar.jsx";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/myorder" element={<MyOrders />} />
           <Route path="/orderdetails" element={<OrderDetails />} />
+          <Route path="/adminlandingpage" element={<AdminLandingPage />} />
+          <Route path="/adminsidebar" element={<AdminSidebar />} />
 
 
 

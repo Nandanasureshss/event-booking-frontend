@@ -1,0 +1,133 @@
+/* Layout */
+.adminLandingPage {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f6fa;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Sidebar */
+.adminLandingPageSidebar {
+  width: 220px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.08);
+}
+
+.adminLandingPageLogo {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.adminLandingPageMenu li {
+  list-style: none;
+  padding: 12px 0;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Main Content */
+.adminLandingPageContent {
+  flex: 1;
+  padding: 20px 30px;
+}
+
+/* Topbar */
+.adminLandingPageTopbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adminLandingPageTopbar input {
+  width: 280px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+}
+
+.adminLandingPageUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Title */
+.adminLandingPageTitle {
+  margin: 20px 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Gradient Cards */
+.adminLandingPageCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.adminLandingPageCard {
+  padding: 20px;
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.adminLandingPageGradient1 {
+  background: linear-gradient(to right, #d946ef, #9333ea);
+}
+
+.adminLandingPageGradient2 {
+  background: linear-gradient(to right, #0ea5e9, #6366f1);
+}
+
+.adminLandingPageGradient3 {
+  background: linear-gradient(to right, #f97316, #ef4444);
+}
+
+.cardTitle {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.cardValue {
+  margin-top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Main Grid */
+.adminLandingPageMainGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 300px 300px;
+  gap: 20px;
+}
+
+.adminLandingPageBox {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 25px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .adminLandingPageCards {
+    grid-template-columns: 1fr;
+  }
+
+  .adminLandingPageMainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .adminLandingPageSidebar {
+    display: none;
+  }
+}
