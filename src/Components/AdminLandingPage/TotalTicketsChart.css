@@ -1,0 +1,116 @@
+.chartBox {
+  background: white;
+  padding: 22px;
+  border-radius: 20px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+  height: 420px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartBox h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.donutWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 230px;
+}
+
+.legendWrapper {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.legendRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.legendLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legendDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.legendPercent {
+  font-size: 14px;
+  color: #555;
+}
+@media (max-width: 1024px) {
+  .chartBox {
+    height: auto;               
+    padding: 18px;
+  }
+
+  .donutWrapper {
+    height: 200px;              
+  }
+
+  .legendRow {
+    margin: 8px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .chartBox {
+    padding: 16px;
+    height: auto;
+  }
+
+  .chartBox h3 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .donutWrapper {
+    height: 180px;
+  }
+
+  .legendWrapper {
+    margin-top: 14px;
+  }
+
+  .legendRow {
+    flex-direction: column;       
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .legendPercent {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chartBox {
+    padding: 14px;
+  }
+
+  .donutWrapper {
+    height: 150px;
+  }
+
+  .legendDot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .legendPercent {
+    font-size: 12px;
+  }
+}

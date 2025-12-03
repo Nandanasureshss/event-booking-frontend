@@ -1,0 +1,117 @@
+.tableBox {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+}
+
+.tableBox h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #000;
+}
+.tableBox table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tableBox th {
+  text-align: left;
+  padding: 12px 10px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.tableBox td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  color: #444;
+}
+
+.tableBox tbody tr:hover {
+  background: #f9fbff;
+  transition: 0.2s ease;
+}
+.status {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.processing {
+  background: #facc15;
+  color: #5a4400;
+}
+
+.completed {
+  background: #4ade80;
+  color: #033b12;
+}
+@media (max-width: 992px) {
+  .tableBox {
+    padding: 18px;
+  }
+
+  .tableBox table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* --------------------------------------------------------
+   📱 TABLE RESPONSIVE — Mobile (Card Layout)
+---------------------------------------------------------*/
+@media (max-width: 600px) {
+  .tableBox table,
+  .tableBox thead,
+  .tableBox tbody,
+  .tableBox th,
+  .tableBox td,
+  .tableBox tr {
+    display: block;
+  }
+
+  /* Hide table header on mobile */
+  .tableBox thead {
+    display: none;
+  }
+
+  /* Each row becomes a card */
+  .tableBox tr {
+    background: white;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    padding: 15px 12px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.06);
+  }
+
+  /* Each cell shows label before value */
+  .tableBox td {
+    border: none;
+    padding: 8px 0;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  /* Add labels using attr(data-label) */
+  .tableBox td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+    min-width: 120px;
+  }
+
+  .status {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+}

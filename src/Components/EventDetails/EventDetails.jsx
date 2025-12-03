@@ -61,7 +61,6 @@ const EventDetails = () => {
     },
   ];
 
-  /* -------------------- FILTER LOGIC -------------------- */
   const [filters, setFilters] = useState({ sort: "", hotel: "", location: "" });
   const [filteredHotels, setFilteredHotels] = useState([]);
 
@@ -243,7 +242,6 @@ const EventDetails = () => {
         </div>
       </div>
 
-      {/* -------------------- Filters -------------------- */}
       <div className="EventDetailsFilters">
         <select value={filters.sort} onChange={(e) => updateFilter("sort", e.target.value)}>
           <option value="">Sort By</option>
@@ -269,7 +267,6 @@ const EventDetails = () => {
         </span>
       </div>
 
-      {/* -------------------- Hotels -------------------- */}
       <div className="EventDetailsHotelList">
         {filteredHotels.map((hotel) => (
           <div className="EventDetailsHotelCard" key={hotel.id}>

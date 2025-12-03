@@ -5,13 +5,7 @@ import { FaHome, FaTicketAlt, FaHotel, FaUsers, FaChartBar, FaWallet } from "rea
 function AdminSidebar() {
   return (
     <aside className="adminSidebar">
-      <div className="adminSidebarLogoBox">
-        <img
-          src="https://via.placeholder.com/120x40"
-          alt="logo"
-          className="adminSidebarLogo"
-        />
-      </div>
+    
 
       <ul className="adminSidebarMenu">
         <li className="active"><FaHome /> Dashboard</li>

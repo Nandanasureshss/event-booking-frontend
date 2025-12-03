@@ -1,0 +1,219 @@
+.dashboardCards {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.ticketCard,
+.dashboardCard {
+  min-height: 220px;         
+  padding: 18px 24px;        
+  border-radius: 22px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.ticketCard {
+  width: 380px;
+  background: linear-gradient(135deg, #ff6b6b, #7868e6);
+}
+
+.ticketCard::before,
+.ticketCard::after {
+  content: "";
+  position: absolute;
+  width: 200px;  
+  height: 200px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+.ticketCard::before { top: -50px; right: -30px; }
+.ticketCard::after { bottom: -50px; left: -30px; }
+
+/* Title */
+.ticketTitle {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.ticketRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: -2px;
+}
+
+.ticketStackIcon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.ticketIconBack,
+.ticketIconFront {
+  position: absolute;
+  color: white;
+  font-size: 32px;
+}
+
+.ticketIconBack {
+  transform: rotate(-12deg);
+  top: 6px;
+  left: 4px;
+  opacity: 0.9;
+}
+
+.ticketIconFront {
+  transform: rotate(-6deg);
+  top: 0px;
+  left: 0px;
+}
+
+.ticketValue {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ticketBars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.ticketBars span {
+  width: 14px;
+  background: white;
+  border-radius: 4px 4px 0 0;
+}
+
+.ticketDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.6);
+  margin: 0;
+}
+
+.ticketFooter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 6px;
+}
+
+.dashboardCard {
+  width: 350px;
+}
+
+.gradient2 {
+  background: linear-gradient(135deg, #43a6ff, #c471f5);
+}
+
+.gradient3 {
+  background: linear-gradient(135deg, #ff886a, #ff2565);
+}
+
+.dashboardCard::before,
+.dashboardCard::after {
+  content: "";
+  position: absolute;
+  width: 200px;  
+  height: 200px;  
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+.dashboardCard::before { top: -50px; right: -30px; }
+.dashboardCard::after { bottom: -50px; left: -30px; }
+
+.cardTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardIcon {
+  font-size: 26px;
+  color: white;
+}
+
+.cardValue {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 15px 0 5px 0;
+}
+
+.increaseText {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.cardFooter {
+  font-size: 12px;
+  opacity: 0.9;
+  text-align: right;
+  margin-top: 6px;
+}
+.dashboardCards {
+  display: flex;
+  gap: 25px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ticketCard,
+.dashboardCard {
+  width: 300px;      
+  min-width: 290px;  
+  max-width: 310px;   
+}
+@media (max-width: 1024px) {
+  .dashboardCards {
+    justify-content: space-evenly;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardCards {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .ticketCard,
+  .dashboardCard {
+    width: 90%;
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticketCard,
+  .dashboardCard {
+    width: 100%;
+    min-width: 230px;
+    padding: 16px 20px;
+  }
+
+  .cardValue,
+  .ticketValue {
+    font-size: 26px;
+  }
+
+  .ticketBars span {
+    width: 10px;
+  }
+}

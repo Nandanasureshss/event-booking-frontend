@@ -1,0 +1,342 @@
+
+.adminEventsPage {
+  width: 100%;
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+
+.adminEventsHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.eventsDateRange {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-left: 580px;
+}
+
+
+.adminEventsSidebar {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  width: 240px;
+  height: calc(100vh - 90px);
+  z-index: 15;
+}
+
+
+.adminEventsContainer {
+  margin-left: 240px;
+  margin-top: 110px;
+  padding-right: 40px;
+}
+
+.adminEventsContent {
+  padding: 35px 45px;
+  background: #f6f7fb;
+}
+
+
+.eventsTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.eventsTitleIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7a5cff, #ff77c9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendarIcon {
+  font-size: 22px;
+  color: #fff;
+}
+
+.eventsTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+}
+
+
+.eventsStats {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  margin-top: -25px;
+}
+
+.eventsStatCard {
+  width: 32%;
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 20px 17px;
+  border: 1px solid #e9e9e9;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+  height: 150px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.statIconBox {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statIcon {
+  font-size: 20px;
+  color: #fff;
+}
+
+
+.gradient1 { background: linear-gradient(135deg, #5ecbff, #c289ff); }
+.gradient2 { background: linear-gradient(135deg, #72d9ff, #b991ff); }
+.gradient3 { background: linear-gradient(135deg, #6dffa1, #c08dff); }
+
+.statLabel {
+  font-size: 13px;
+  color: #666;
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: -4px;
+}
+
+.statChange {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statChange.positive {
+  color: #16a382;
+}
+
+.trendIcon {
+  color: #1ab885;
+  font-size: 18px;
+}
+
+.pendingIcon {
+  color: #00b7e9;
+  font-size: 18px;
+}
+
+
+.recentTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+
+.recentEvents {
+  display: flex;
+  gap: 30px;
+}
+
+
+.eventBigCard {
+  display: flex;
+  width: 500px;           
+  height: 300px;         
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.eventBigLeft {
+  width: 45%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.eventBigImg {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+}
+
+.eventBigBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ffb347;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  color: white;
+  z-index: 10;
+}
+
+.eventBigTitleBox {
+  position: absolute;
+  top: 60px;
+  left: 12px;
+  color: white;
+  z-index: 10;
+}
+
+.eventBigMainTitle { font-size: 18px; font-weight: 700; }
+.eventBigDate { font-size: 13px; }
+
+.eventBigFooter {
+  height: 70px;                 
+  background: linear-gradient(90deg, #3557ff, #b85bff);
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.eventBigRight {
+  width: 55%;
+  padding: 20px 24px;         
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;                
+}
+
+.eventBigRightTitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.eventBigRightDate {
+  color: #00a37a;
+  font-weight: 500;
+}
+
+.eventBigInfoRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #00a37a;
+  font-size: 14px;
+}
+
+.eventBigInfoRow svg {
+  color: #999 !important;
+}
+
+.ticketSold {
+  color: #00a37a;
+  font-weight: 600;
+}
+
+.eventBigActions {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.bigEdit { color: #6d5bff; }
+.bigDelete { color: #ff4b4b; }
+.bigTrack { color: #00c67a; }
+.addEventCard {
+  width: 500px;                   
+  height: 300px;                   
+  background: white;
+  border-radius: 25px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.addEventCard:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+}
+
+.plus {
+  font-size: 55px;       
+  font-weight: 300;
+  color: #2b8cff;       
+  margin: 0;
+}
+
+.addEventText {
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2b8cff;      
+}
+
+.subText {
+  margin-top: 10px;
+  width: 70%;
+  font-size: 16px;
+  color: #0aab87;       
+  line-height: 1.4;
+}
+@media (max-width: 1200px) {
+  .eventsStats { flex-wrap: wrap; }
+  .eventsStatCard { width: 48%; height: auto; }
+  .recentEvents { flex-wrap: wrap; }
+}
+
+@media (max-width: 992px) {
+  .adminEventsContainer { margin-left: 0; padding: 20px; }
+  .adminEventsSidebar { display: none; }
+  .eventsStatCard { width: 100%; }
+  .eventBigCard, .addEventCard { width: 100%; height: 260px; }
+}
+
+@media (max-width: 768px) {
+  .eventsTitle { font-size: 22px; }
+  .eventsTitleIcon { width: 38px; height: 38px; }
+  .eventBigRightTitle { font-size: 18px; }
+  .eventBigRight { padding: 16px; }
+}
+
+@media (max-width: 600px) {
+  .eventsTitleRow { flex-direction: column; align-items: flex-start; }
+  .eventsStats { gap: 12px; }
+  .eventBigCard, .addEventCard { height: auto; flex-direction: column; }
+  .eventBigLeft, .eventBigRight { width: 100%; }
+}

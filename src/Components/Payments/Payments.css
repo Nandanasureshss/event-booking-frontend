@@ -1,0 +1,132 @@
+.paymentsContent {
+  padding: 35px 45px;
+}
+
+.paymentsTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paymentsTitleRow h2 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.paymentsDateRange {
+  font-size: 14px;
+  color: #666;
+}
+
+.paymentsFilters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 25px; 
+}
+
+/* FILTER LEFT SECTION */
+.filterSection {
+  display: flex;
+  align-items: center;
+  color: black;
+  gap: 8px;
+  padding-right: 15px;
+  border-right: 1px solid #eee;
+}
+
+.filterIcon {
+  font-size: 18px;
+}
+
+/* SELECT DROPDOWNS */
+.paymentsFilters select {
+  padding: 10px 16px;
+  border: none;
+  border-right: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+/* REMOVE BORDER ON LAST SELECT */
+.paymentsFilters select:last-of-type {
+  border-right: none;
+}
+
+/* RESET BUTTON */
+.resetBtn {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #e74c3c;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* TABLE */
+.paymentsTableWrapper {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.paymentsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.paymentsTable th {
+  text-align: left;
+  padding: 12px 6px;
+  font-size: 14px;
+  color: #777;
+}
+
+.paymentsTable td {
+  padding: 12px 6px;
+  font-size: 14px;
+  color: #333;
+  border-top: 1px solid #f1f1f1;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.statusBadge.Completed {
+  background: #4da3ff;
+}
+
+.statusBadge.Failed {
+  background: #ff6961;
+}
+
+.statusBadge.Processing {
+  background: #ff9f43;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .paymentsFilters {
+    flex-wrap: wrap;
+  }
+
+  .paymentsTableWrapper {
+    overflow-x: auto;
+  }
+}

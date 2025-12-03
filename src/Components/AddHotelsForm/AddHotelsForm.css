@@ -1,0 +1,113 @@
+.addHotelWrapper {
+  display: flex;
+  width: 100%;
+  gap: 40px;
+  padding: 30px 40px;
+  flex-wrap: wrap;
+}
+
+.addHotelLeft {
+  width: 40%;
+  background: #f3f3f3;
+  padding: 30px;
+  border-radius: 12px;
+  color: black;
+}
+
+.addHotelLeft h2,
+.addHotelLeft label {
+  color: black;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.addHotelLeft input,
+.addHotelLeft select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+  color: black;
+  background: white;
+}
+
+.addFeatureBtn {
+  background: #4da3ff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.addHotelRight {
+  width: 45%;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  color: black;
+}
+
+.addHotelRight h3,
+.addHotelRight p {
+  color: black;
+  font-weight: 600;
+}
+
+.uploadBlock {
+  margin-bottom: 20px;
+}
+
+.uploadBox {
+  width: 50px;
+  height: 50px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.uploadBox input {
+  display: none;
+}
+
+.uploadIcon,
+.uploadedIcon {
+  font-size: 20px;
+  color: #4da3ff;
+}
+
+.submitHotelBtn {
+  width: 100%;
+  background: #4da3ff;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .addHotelLeft, .addHotelRight {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .addHotelWrapper {
+    padding: 20px;
+  }
+}

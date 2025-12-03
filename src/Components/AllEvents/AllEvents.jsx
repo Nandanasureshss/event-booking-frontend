@@ -12,14 +12,11 @@ import { CiClock1 } from "react-icons/ci";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { IoIosHeartEmpty, IoIosArrowDown } from "react-icons/io";
 
-// CAROUSEL SLIDES
 const slides = [
   { id: 1, image: "/assets/picture1.jpg" },
   { id: 2, image: "/assets/picture2.jpg" },
   { id: 3, image: "/assets/picture3.jpg" },
 ];
-
-// EVENT DATA
 const eventsData = [
   { id: 1, title: "Coldplay Live", date: "September 14", image: "/assets/picture1.jpg", location: "Dubai", type: "Concert" },
   { id: 2, title: "Festive Fusion", date: "October 10", image: "/assets/picture2.jpg", location: "Oman", type: "Festival" },
@@ -36,7 +33,6 @@ const AllEvents = () => {
   const [locationFilter, setLocationFilter] = useState("");
   const [eventFilter, setEventFilter] = useState("");
 
-  // Match event with selected date
   const formatEventDate = (dateStr) => {
     const [month, day] = dateStr.split(" ");
     return `${month.substring(0, 3)} ${day}`;
@@ -57,11 +53,8 @@ const AllEvents = () => {
 
   return (
     <div className="all-events-page">
-
-      {/*  TOP SECTION = CAROUSEL + FILTERS */}
       <div className="top-section">
 
-        {/*  CAROUSEL */}
         <div className="carousel-wrapper">
           <Swiper
             modules={[Pagination, Autoplay]}
@@ -77,10 +70,8 @@ const AllEvents = () => {
           </Swiper>
         </div>
 
-        {/*  FILTER BAR */}
         <div className="allevents-top-filter">
 
-          {/* LOCATION */}
           <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}>
             Location <IoIosArrowDown />
             {openDropdown === 1 && (
@@ -97,7 +88,6 @@ const AllEvents = () => {
 
           <div className="divider"></div>
 
-          {/* DATE */}
           <div className="filter-item" onClick={() => setShowCalendar(!showCalendar)}>
             Select Date <IoIosArrowDown />
             {showCalendar && (
@@ -114,7 +104,6 @@ const AllEvents = () => {
 
           <div className="divider"></div>
 
-          {/* EVENT TYPE */}
           <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 2 ? null : 2)}>
             Select Event <IoIosArrowDown />
             {openDropdown === 2 && (
@@ -133,7 +122,6 @@ const AllEvents = () => {
 
       </div>
 
-      {/*  EVENT CARDS */}
       <h2 className="section-title">Popular Events</h2>
 
       <div className="events-grid">

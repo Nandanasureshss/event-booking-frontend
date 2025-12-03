@@ -37,7 +37,6 @@ const Cart = () => {
 
       <div className="cart-layout">
         
-        {/* LEFT SECTION */}
         <div className="cart-left">
 
           {ticketQty > 0 && (
@@ -61,7 +60,6 @@ const Cart = () => {
 
                   <p className="cart-card-price-line">$49 per ticket</p>
 
-                  {/* Quantity */}
                   <div className="cart-qty-row">
                     <button
                       className="qty-btn"
@@ -109,7 +107,6 @@ const Cart = () => {
 
                   <p className="cart-card-price-line">$120 per night</p>
 
-                  {/* Quantity */}
                   <div className="cart-qty-row">
                     <button
                       className="qty-btn"
@@ -145,7 +142,6 @@ const Cart = () => {
 
           <div className="summary-items">
 
-            {/* TICKET SUMMARY */}
             {ticketQty > 0 && (
               <div className="summary-item">
                 <img src="/assets/picture5.jpg" alt="ticket" />
@@ -157,7 +153,6 @@ const Cart = () => {
               </div>
             )}
 
-            {/* HOTEL SUMMARY */}
             {hotelQty > 0 && hotel && (
               <div className="summary-item">
                 <img src={hotel.image} alt="hotel" />
@@ -171,13 +166,11 @@ const Cart = () => {
 
           </div>
 
-          {/* Discount Box */}
           <div className="discount-row">
             <input placeholder="Discount code" />
             <button>Apply</button>
           </div>
 
-          {/* Totals */}
           <div className="summary-totals">
             <div className="sum-row">
               <span>Subtotal</span>
