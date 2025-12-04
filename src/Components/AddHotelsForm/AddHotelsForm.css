@@ -99,6 +99,19 @@
   font-size: 16px;
   font-weight: 600;
 }
+.previewContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.previewThumb {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
 
 @media (max-width: 1024px) {
   .addHotelLeft, .addHotelRight {

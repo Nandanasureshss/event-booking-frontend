@@ -30,9 +30,14 @@ function Header() {
               <span><IoSearchOutline size={22} /></span>
             </button>
 
-            <button className="header-icon-button" aria-label="Cart">
+            <button
+              className="header-icon-button"
+              aria-label="Cart"
+              onClick={() => navigate("/cart")}  
+            >
               <span><BsCart2 size={22} /></span>
             </button>
+
 
             <button
               className="header-icon-button"
@@ -94,7 +99,7 @@ function Header() {
               className="menu-item"
               onClick={() => {
                 setOpenProfile(false);
-                navigate("/myorder");   
+                navigate("/myorder");
               }}
             >
               Your Orders

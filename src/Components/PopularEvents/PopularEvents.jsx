@@ -37,7 +37,12 @@ function PopularEvents() {
       <div className="page-container">
         <div className="section-header">
           <h2 className="section-title">Popular Events</h2>
-          <button className="section-link" type="button">
+
+          <button
+            className="section-link"
+            type="button"
+            onClick={() => navigate("/allevents")}   // ⭐ Correct
+          >
             Show All
           </button>
         </div>
@@ -49,6 +54,7 @@ function PopularEvents() {
                 <img src={event.image} alt={event.title} />
                 <span className="event-tag">{event.tag}</span>
               </div>
+
               <div className="event-body">
                 <h3 className="event-title">{event.title}</h3>
                 <p className="event-meta">{event.location}</p>
@@ -56,11 +62,12 @@ function PopularEvents() {
 
                 <button
                   className="event-cta"
-                  onClick={() => navigate("/event-details")}
+                  onClick={() => navigate("/event-details")}   // ⭐ Correct
                 >
                   Book Now
                 </button>
               </div>
+
             </article>
           ))}
         </div>

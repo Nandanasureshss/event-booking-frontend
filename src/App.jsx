@@ -46,7 +46,7 @@ function AppWrapper() {
           <Route path="/admin/payments" element={<Payments />} />
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/tracksales" element={<TrackSales />} />   
-          <Route path="/admin/recentticket" element={<RecentTicketsTable/>} />
+          {/* <Route path="/admin/recentticket" element={<RecentTicketsTable/>} /> */}
             </Routes>
       ) : (
         // PUBLIC ROUTES

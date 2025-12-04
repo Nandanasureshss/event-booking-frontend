@@ -7,11 +7,14 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import { IoIosArrowDown } from "react-icons/io";
 import "swiper/css/pagination";
+import { useNavigate } from "react-router-dom";
 
 function Hero() {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+
+    const navigate = useNavigate(); // ⭐ Navigation
 
     const slides = [
         {
@@ -64,7 +67,12 @@ function Hero() {
                             <div className="hero-inner page-container">
 
                                 <div className="hero-top-filter">
-                                    <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}>
+                                    <div
+                                        className="filter-item"
+                                        onClick={() =>
+                                            setOpenDropdown(openDropdown === 1 ? null : 1)
+                                        }
+                                    >
                                         Locatio <span className="arrow"><IoIosArrowDown /></span>
 
                                         {openDropdown === 1 && (
@@ -79,8 +87,8 @@ function Hero() {
                                         )}
                                     </div>
 
-
                                     <div className="divider"></div>
+
                                     <div
                                         className="filter-item"
                                         onClick={() => setShowCalendar(!showCalendar)}
@@ -101,17 +109,19 @@ function Hero() {
                                         )}
                                     </div>
 
-
-
-
                                     <div className="divider"></div>
 
                                     <div className="filter-item">
                                         Select Event <span className="arrow"><IoIosArrowDown /></span>
                                     </div>
 
-
-                                    <button className="hero-primary">{slide.primaryBtn}</button>
+                                    {/* ⭐ BOOK NOW TOP BUTTON */}
+                                    <button
+                                        className="hero-primary"
+                                        onClick={() => navigate("/allevents")}
+                                    >
+                                        {slide.primaryBtn}
+                                    </button>
                                 </div>
 
                                 <div className="hero-content">
@@ -119,7 +129,13 @@ function Hero() {
                                     <p>{slide.description}</p>
 
                                     <div className="hero-cta-row">
-                                        <button className="hero-primary">{slide.primaryBtn}</button>
+                                        {/* ⭐ BOOK NOW BOTTOM BUTTON */}
+                                        <button
+                                            className="hero-primary"
+                                            onClick={() => navigate("/allevents")}
+                                        >
+                                            {slide.primaryBtn}
+                                        </button>
                                     </div>
                                 </div>
 

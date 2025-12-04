@@ -3,7 +3,6 @@ import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotelsForm.css";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-
 import { useNavigate } from "react-router-dom";
 
 function AddHotelsForm() {
@@ -15,9 +14,7 @@ function AddHotelsForm() {
     about: "",
     time: "",
     category: "3 Star",
-    features: [
-      { text: "Special Feature", images: [] } 
-    ]
+    features: [{ text: "Special Feature", images: [] }],
   });
 
   const handleFeatureChange = (index, value) => {
@@ -29,13 +26,21 @@ function AddHotelsForm() {
   const addFeature = () => {
     setHotel({
       ...hotel,
-      features: [...hotel.features, { text: "Special Feature", images: [] }]
+      features: [...hotel.features, { text: "Special Feature", images: [] }],
     });
   };
 
   const handleImageUpload = (index, fileList) => {
+    const files = Array.from(fileList);
+
+    const previews = files.map((f) => ({
+      file: f,
+      preview: URL.createObjectURL(f),
+    }));
+
     const updated = [...hotel.features];
-    updated[index].images = Array.from(fileList);
+    updated[index].images = previews;
+
     setHotel({ ...hotel, features: updated });
   };
 
@@ -48,7 +53,6 @@ function AddHotelsForm() {
 
   return (
     <div className="adminEventsPage">
-
       <div className="adminEventsHeader">
         <Topbar />
       </div>
@@ -59,7 +63,6 @@ function AddHotelsForm() {
 
       <div className="adminEventsContainer">
         <div className="addHotelWrapper">
-
           <div className="addHotelLeft">
             <h2>List New Hotel</h2>
 
@@ -110,7 +113,9 @@ function AddHotelsForm() {
               />
             ))}
 
-            <button className="addFeatureBtn" onClick={addFeature}>+</button>
+            <button className="addFeatureBtn" onClick={addFeature}>
+              +
+            </button>
           </div>
 
           <div className="addHotelRight">
@@ -127,12 +132,22 @@ function AddHotelsForm() {
                   />
 
                   {f.images.length === 0 && (
-                    <span className="uploadIcon"><AiOutlineCloudUpload />
-</span>
+                    <span className="uploadIcon">
+                      <AiOutlineCloudUpload />
+                    </span>
                   )}
 
                   {f.images.length > 0 && (
-                    <span className="uploadedIcon">🖼</span>
+                    <div className="previewContainer">
+                      {f.images.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img.preview}
+                          alt={`feature-${index}-${i}`}
+                          className="previewThumb"
+                        />
+                      ))}
+                    </div>
                   )}
                 </label>
               </div>
@@ -142,7 +157,6 @@ function AddHotelsForm() {
               Add
             </button>
           </div>
-
         </div>
       </div>
     </div>

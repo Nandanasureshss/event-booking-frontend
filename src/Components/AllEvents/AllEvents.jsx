@@ -11,12 +11,14 @@ import { LuMapPin } from "react-icons/lu";
 import { CiClock1 } from "react-icons/ci";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { IoIosHeartEmpty, IoIosArrowDown } from "react-icons/io";
+import { useNavigate } from "react-router-dom"; 
 
 const slides = [
   { id: 1, image: "/assets/picture1.jpg" },
   { id: 2, image: "/assets/picture2.jpg" },
   { id: 3, image: "/assets/picture3.jpg" },
 ];
+
 const eventsData = [
   { id: 1, title: "Coldplay Live", date: "September 14", image: "/assets/picture1.jpg", location: "Dubai", type: "Concert" },
   { id: 2, title: "Festive Fusion", date: "October 10", image: "/assets/picture2.jpg", location: "Oman", type: "Festival" },
@@ -26,10 +28,11 @@ const eventsData = [
 ];
 
 const AllEvents = () => {
+  const navigate = useNavigate();  
+
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-
   const [locationFilter, setLocationFilter] = useState("");
   const [eventFilter, setEventFilter] = useState("");
 
@@ -53,74 +56,6 @@ const AllEvents = () => {
 
   return (
     <div className="all-events-page">
-      <div className="top-section">
-
-        <div className="carousel-wrapper">
-          <Swiper
-            modules={[Pagination, Autoplay]}
-            autoplay={{ delay: 3500 }}
-            loop
-            pagination={{ clickable: true }}
-          >
-            {slides.map((slide) => (
-              <SwiperSlide key={slide.id}>
-                <img src={slide.image} className="carousel-img" alt="" />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
-        <div className="allevents-top-filter">
-
-          <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}>
-            Location <IoIosArrowDown />
-            {openDropdown === 1 && (
-              <div className="dropdown-menu">
-                {["Dubai", "London", "Oman", "Paris"].map((loc) => (
-                  <div key={loc}
-                    onClick={() => { setLocationFilter(loc); setOpenDropdown(null); }}>
-                    {loc}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="divider"></div>
-
-          <div className="filter-item" onClick={() => setShowCalendar(!showCalendar)}>
-            Select Date <IoIosArrowDown />
-            {showCalendar && (
-              <div className="calendar-popup">
-                <Calendar
-                  onChange={(date) => {
-                    setSelectedDate(date);
-                    setShowCalendar(false);
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="divider"></div>
-
-          <div className="filter-item" onClick={() => setOpenDropdown(openDropdown === 2 ? null : 2)}>
-            Select Event <IoIosArrowDown />
-            {openDropdown === 2 && (
-              <div className="dropdown-menu">
-                {["Concert", "Festival", "Sports"].map((ev) => (
-                  <div key={ev}
-                    onClick={() => { setEventFilter(ev); setOpenDropdown(null); }}>
-                    {ev}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-        </div>
-
-      </div>
 
       <h2 className="section-title">Popular Events</h2>
 
@@ -128,14 +63,11 @@ const AllEvents = () => {
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
             <div className="event-card" key={event.id}>
-
               <div className="card-image">
                 <img src={event.image} alt={event.title} />
-
                 <span className="tag">TRENDING</span>
                 <h3 className="eventheading">{event.title}</h3>
                 <p className="eventpara">{event.date}</p>
-
                 <button className="wishlist-btn">
                   <IoIosHeartEmpty />
                 </button>
@@ -149,10 +81,15 @@ const AllEvents = () => {
                     <p><IoPricetagsOutline /> From $49</p>
                   </div>
 
-                  <button className="book-btn">Book Now</button>
+                  <button
+                    className="book-btn"
+                    onClick={() => navigate("/event-details")}
+                  >
+                    Book Now
+                  </button>
+
                 </div>
               </div>
-
             </div>
           ))
         ) : (

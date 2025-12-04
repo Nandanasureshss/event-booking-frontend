@@ -107,9 +107,17 @@
   color: #fff;
 }
 
-.gradient1 { background: linear-gradient(135deg, #5ecbff, #c289ff); }
-.gradient2 { background: linear-gradient(135deg, #72d9ff, #b991ff); }
-.gradient3 { background: linear-gradient(135deg, #6dffa1, #c08dff); }
+.gradient1 {
+  background: linear-gradient(135deg, #5ecbff, #c289ff);
+}
+
+.gradient2 {
+  background: linear-gradient(135deg, #72d9ff, #b991ff);
+}
+
+.gradient3 {
+  background: linear-gradient(135deg, #6dffa1, #c08dff);
+}
 
 .statLabel {
   font-size: 13px;
@@ -127,7 +135,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 0px;   
+  margin-top: 0px;
 }
 
 .statChange.positive {
@@ -143,6 +151,7 @@
   color: #00b7e9;
   font-size: 18px;
 }
+
 @media (max-width: 992px) {
   .adminEventsSidebar {
     display: none;
@@ -173,5 +182,231 @@
   }
   .eventsStats {
     gap: 12px;
+  }
+}
+
+/* ====== CARD SECTION (MATCHING ADMIN EVENTS) ====== */
+
+.recentTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.recentEvents {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.recentEvents > :nth-child(1) {
+  grid-column: 1;
+}
+
+.recentEvents > :nth-child(2) {
+  grid-column: 2;
+}
+
+.eventBigCard,
+.addEventCard {
+  width: 100%;
+  height: 320px;
+}
+
+.eventBigCard {
+  display: flex;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(0,0,0,0.15);
+}
+
+.eventLeft {
+  width: 40%;
+  position: relative;
+}
+
+.eventImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.eventLeftBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #384f9f, #b13bff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.leftDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  max-width: calc(100% - 150px);
+}
+
+.leftDetails p {
+  margin: 0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.bookBtn {
+  flex-shrink: 0;
+  padding: 8px 24px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #49b3ff, #c45bff);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.eventRight {
+  width: 60%;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eventTitle {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #111;
+}
+
+.eventDateText {
+  color: #00a37a;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.eventInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #00a37a;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.eventInfo svg {
+  color: #555 !important;
+}
+
+.eventActions {
+  margin-top: 14px;
+  display: flex;
+  gap: 22px;
+}
+
+.actionEdit {
+  color: #5d4bff;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.actionDelete {
+  color: #ff4b4b;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.actionTrack {
+  color: #00c67a;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.addEventCard {
+  background: white;
+  border-radius: 25px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.addEventCard:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+}
+
+.plus {
+  font-size: 55px;
+  font-weight: 300;
+  color: #2b8cff;
+  margin: 0;
+}
+
+.addEventText {
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2b8cff;
+}
+
+.subText {
+  margin-top: 10px;
+  width: 70%;
+  font-size: 16px;
+  color: #0aab87;
+  line-height: 1.4;
+}
+
+@media (max-width: 1200px) {
+  .recentEvents {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .recentEvents {
+    grid-template-columns: 1fr;
+  }
+  .eventBigCard,
+  .addEventCard {
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .eventBigCard,
+  .addEventCard {
+    height: auto;
+    flex-direction: column;
+  }
+  .eventLeft,
+  .eventRight {
+    width: 100%;
   }
 }

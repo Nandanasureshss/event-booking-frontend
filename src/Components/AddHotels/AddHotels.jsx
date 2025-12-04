@@ -3,10 +3,17 @@ import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotels.css";
 
-import { FiEdit, FiTrash2, FiBarChart2, FiMapPin, FiClock, FiTrendingUp } from "react-icons/fi";
+import {
+  FiEdit,
+  FiTrash2,
+  FiBarChart2,
+  FiMapPin,
+  FiClock,
+  FiTrendingUp,
+} from "react-icons/fi";
 import { SlCalender, SlNotebook, SlUserFollow } from "react-icons/sl";
 import { LuClock3 } from "react-icons/lu";
-import { FaDollarSign } from "react-icons/fa";
+import { FaDollarSign, FaTicketAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const AddHotels = () => {
@@ -18,9 +25,15 @@ const AddHotels = () => {
     setHotels(saved);
   }, []);
 
+  const getCoverImage = (hotel) => {
+    const firstFeature = hotel.features && hotel.features[0];
+    const firstImg = firstFeature && firstFeature.images && firstFeature.images[0];
+    if (firstImg && firstImg.preview) return firstImg.preview;
+    return "/assets/picture.jpg";
+  };
+
   return (
     <div className="adminEventsPage">
-      
       <div className="adminEventsHeader">
         <Topbar />
       </div>
@@ -31,7 +44,6 @@ const AddHotels = () => {
 
       <div className="adminEventsContainer">
         <div className="adminEventsContent">
-
           <div className="eventsTitleRow">
             <div className="eventsTitleIcon">
               <SlCalender className="calendarIcon" />
@@ -41,7 +53,6 @@ const AddHotels = () => {
           </div>
 
           <div className="eventsStats">
-            
             <div className="eventsStatCard">
               <div className="statIconBox gradient1">
                 <SlNotebook className="statIcon" />
@@ -79,11 +90,9 @@ const AddHotels = () => {
           <h3 className="recentTitle">Recently Added Hotels</h3>
 
           <div className="recentEvents">
-
             <div
               className="addEventCard"
               onClick={() => navigate("/admin/hotels/add")}
-              style={{ cursor: "pointer" }}
             >
               <p className="plus">+</p>
               <p className="addEventText">Add new hotel</p>
@@ -92,46 +101,52 @@ const AddHotels = () => {
               </p>
             </div>
 
-            {/* DISPLAY HOTEL CARDS */}
             {hotels.map((hotel, index) => (
               <div className="eventBigCard" key={index}>
-                
-                <div className="eventBigLeft">
-                  
+                <div className="eventLeft">
                   <img
-                    src={
-                      hotel.images && hotel.images.length > 0
-                        ? URL.createObjectURL(hotel.images[0])
-                        : "/assets/picture.jpg"
-                    }
-                    className="eventBigImg"
+                    src={getCoverImage(hotel)}
+                    className="eventImg"
                     alt="hotel"
                   />
 
-                  <div className="eventBigFooter">
-                    <p><FiMapPin /> {hotel.location}</p>
-                    <p><FiClock /> {hotel.time}</p>
+                  <div className="eventLeftBottom">
+                  
+                    <button className="bookBtn">Book Now</button>
                   </div>
                 </div>
 
-                <div className="eventBigRight">
-                  <h3 className="eventBigRightTitle">{hotel.name}</h3>
-                  <p className="eventBigRightDate">{hotel.category}</p>
+                <div className="eventRight">
+                  <h3 className="eventTitle">{hotel.name || "Hotel Name"}</h3>
+                  <p className="eventDateText">{hotel.category || "3 Star"}</p>
 
-                  <p className="eventBigInfoRow">
-                    <FiTrendingUp /> {hotel.features.length} Features
+                  <p className="eventInfo">
+                    <FiMapPin /> {hotel.location || "Location"}
+                  </p>
+                  <p className="eventInfo">
+                    <FiClock /> {hotel.time || "Timing"}
+                  </p>
+                  <p className="eventInfo">
+                    <FaDollarSign /> From $49
+                  </p>
+                  <p className="eventInfo">
+                    <SlUserFollow /> 0 Bookings
                   </p>
 
-                  <div className="eventBigActions">
-                    <button className="bigEdit"><FiEdit /> Edit</button>
-                    <button className="bigDelete"><FiTrash2 /> Delete</button>
-                    <button className="bigTrack"><FiBarChart2 /> Track</button>
+                  <div className="eventActions">
+                    <button className="actionEdit">
+                      <FiEdit /> Edit
+                    </button>
+                    <button className="actionDelete">
+                      <FiTrash2 /> Delete
+                    </button>
+                    <button className="actionTrack">
+                      <FiBarChart2 /> Track
+                    </button>
                   </div>
                 </div>
-
               </div>
             ))}
-
           </div>
 
         </div>

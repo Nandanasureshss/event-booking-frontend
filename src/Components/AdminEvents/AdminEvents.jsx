@@ -14,7 +14,6 @@ import {
 import { FaTicketAlt } from "react-icons/fa";
 import { SlCalender, SlNotebook, SlClock, SlUserFollow } from "react-icons/sl";
 import { LuClock3 } from "react-icons/lu";
-
 import { useNavigate } from "react-router-dom";
 
 const AdminEvents = () => {
@@ -28,6 +27,7 @@ const AdminEvents = () => {
 
   return (
     <div className="adminEventsPage">
+
       <div className="adminEventsHeader">
         <Topbar />
       </div>
@@ -38,6 +38,7 @@ const AdminEvents = () => {
 
       <div className="adminEventsContainer">
         <div className="adminEventsContent">
+
           <div className="eventsTitleRow">
             <div className="eventsTitleIcon">
               <SlCalender className="calendarIcon" />
@@ -46,7 +47,6 @@ const AdminEvents = () => {
             <span className="eventsDateRange">Aug 01 - Aug 07</span>
           </div>
 
-          
           <div className="eventsStats">
             <div className="eventsStatCard">
               <div className="statIconBox gradient1">
@@ -55,7 +55,7 @@ const AdminEvents = () => {
               <p className="statLabel">Listed events</p>
               <h3 className="statNumber">12 Events</h3>
               <p className="statChange positive">
-                <FiTrendingUp className="trendIcon" /> 18.5% compared to last month
+                <FiTrendingUp /> 18.5% compared to last month
               </p>
             </div>
 
@@ -66,7 +66,7 @@ const AdminEvents = () => {
               <p className="statLabel">Pending events</p>
               <h3 className="statNumber">02 Events</h3>
               <p className="statChange positive">
-                <LuClock3 className="pendingIcon" /> Events scheduled in the future
+                <LuClock3 /> Events scheduled in the future
               </p>
             </div>
 
@@ -77,7 +77,7 @@ const AdminEvents = () => {
               <p className="statLabel">Registrations</p>
               <h3 className="statNumber">23,4854</h3>
               <p className="statChange positive">
-                <FiTrendingUp className="trendIcon" /> 18.5% compared to last month
+                <FiTrendingUp /> 18.5% compared to last month
               </p>
             </div>
           </div>
@@ -85,12 +85,8 @@ const AdminEvents = () => {
           <h3 className="recentTitle">Recently Updated events</h3>
 
           <div className="recentEvents">
-            
-            <div
-              className="addEventCard"
-              onClick={() => navigate("/admin/events/add")}
-              style={{ cursor: "pointer" }}
-            >
+
+            <div className="addEventCard" onClick={() => navigate("/admin/events/add")}>
               <p className="plus">+</p>
               <p className="addEventText">Add new event</p>
               <p className="subText">
@@ -98,132 +94,67 @@ const AdminEvents = () => {
               </p>
             </div>
 
-            
+            {/* FIXED DEMO CARD (FIGURE STYLE) */}
             <div className="eventBigCard">
-              <div className="eventBigLeft">
-                <span className="eventBigBadge">TRENDING</span>
+              <div className="eventLeft">
+                <span className="eventBadge">TRENDING</span>
 
-                <div className="eventBigTitleBox">
-                  <h3 className="eventBigMainTitle">Formula 1</h3>
-                  <p className="eventBigDate">September 26</p>
-                </div>
+                <img src="/assets/picture.jpg" className="eventImg" />
 
-                <img src="/assets/picture.jpg" className="eventBigImg" />
-
-                <div className="eventBigFooter">
-                  <p>
-                    <FiMapPin /> Riyadh Arena
-                  </p>
-                  <p>
-                    <FiClock /> 07:00pm – 11:00pm
-                  </p>
-                  <p>
-                    <FaTicketAlt /> From $49
-                  </p>
+                <div className="eventLeftBottom">
+                 
+                  <button className="bookBtn">Book Now</button>
                 </div>
               </div>
 
-              <div className="eventBigRight">
-                <h3 className="eventBigRightTitle">Event Name</h3>
-                <p className="eventBigRightDate">September 14</p>
+              <div className="eventRight">
+                <h3 className="eventTitle">Event Name</h3>
+                <p className="eventDateText">September 14</p>
 
-                <p className="eventBigInfoRow">
-                  <FiTrendingUp /> 2.3k Ticket sold
-                </p>
+                <p className="eventInfo"><FiMapPin /> Riyadh Arena</p>
+                <p className="eventInfo"><FiClock /> 07:00pm – 11:00pm</p>
+                <p className="eventInfo"><FaTicketAlt /> From $49</p>
+                <p className="eventInfo"><FiTrendingUp /> 2.3k Ticket sold</p>
 
-                <div className="eventBigActions">
-                  <button className="bigEdit">
-                    <FiEdit /> Edit
-                  </button>
-                  <button className="bigDelete">
-                    <FiTrash2 /> Delete
-                  </button>
-                  <button className="bigTrack">
-                    <FiBarChart2 /> Track
-                  </button>
+                <div className="eventActions">
+                  <button className="actionEdit"><FiEdit /> Edit</button>
+                  <button className="actionDelete"><FiTrash2 /> Delete</button>
+                  <button className="actionTrack"><FiBarChart2 /> Track</button>
                 </div>
               </div>
             </div>
 
-           
-            <div className="eventBigCard">
-              <div className="eventBigLeft">
-                <span className="eventBigBadge">TRENDING</span>
-
-                <div className="eventBigTitleBox">
-                  <h3 className="eventBigMainTitle">Formula 1</h3>
-                  <p className="eventBigDate">September 26</p>
-                </div>
-
-                <img src="/assets/picture.jpg" className="eventBigImg" />
-
-                <div className="eventBigFooter">
-                  <p>
-                    <FiMapPin /> Riyadh Arena
-                  </p>
-                  <p>
-                    <FiClock /> 07:00pm – 11:00pm
-                  </p>
-                  <p>
-                    <FaTicketAlt /> From $49
-                  </p>
-                </div>
-              </div>
-
-              <div className="eventBigRight">
-                <h3 className="eventBigRightTitle">Event Name</h3>
-                <p className="eventBigRightDate">September 14</p>
-
-                <p className="eventBigInfoRow">
-                  <FiTrendingUp /> 2.3k Ticket sold
-                </p>
-
-                <div className="eventBigActions">
-                  <button className="bigEdit">
-                    <FiEdit /> Edit
-                  </button>
-                  <button className="bigDelete">
-                    <FiTrash2 /> Delete
-                  </button>
-                  <button className="bigTrack">
-                    <FiBarChart2 /> Track
-                  </button>
-                </div>
-              </div>
-            </div>
-
-           
+            {/* DYNAMIC EVENTS (ALSO FIGURE STYLE) */}
             {events.map((ev, index) => (
               <div className="eventBigCard" key={index}>
-                <div className="eventBigLeft">
-                  <img
-                    src={ev.image || "/assets/picture.jpg"}
-                    className="eventBigImg"
-                  />
+                <div className="eventLeft">
 
-                  <div className="eventBigFooter">
-                    <p>
-                      <FiMapPin /> {ev.location}
-                    </p>
-                    <p>
-                      <FiClock /> {ev.time}
-                    </p>
-                    <p>
-                      <FaTicketAlt /> From $49
-                    </p>
+                  <img src={ev.image || "/assets/picture.jpg"} className="eventImg" />
+
+                  <div className="eventLeftBottom">
+                   
+                    <button className="bookBtn">Book Now</button>
                   </div>
                 </div>
 
-                <div className="eventBigRight">
-                  <h3 className="eventBigRightTitle">{ev.title}</h3>
-                  <p className="eventBigRightDate">{ev.date}</p>
+                <div className="eventRight">
+                  <h3 className="eventTitle">{ev.title}</h3>
+                  <p className="eventDateText">{ev.date}</p>
 
-                  <p className="eventBigInfoRow">
-                    <FiTrendingUp /> 0 Tickets
-                  </p>
+                  <p className="eventInfo"><FiMapPin /> {ev.location}</p>
+                  <p className="eventInfo"><FiClock /> {ev.time}</p>
+                  <p className="eventInfo"><FaTicketAlt /> From $49</p>
+                  <p className="eventInfo"><FiTrendingUp /> 0 Tickets Sold</p>
+
+                  <div className="eventActions">
+                    <button className="actionEdit"><FiEdit /> Edit</button>
+                    <button className="actionDelete"><FiTrash2 /> Delete</button>
+                    <button className="actionTrack"><FiBarChart2 /> Track</button>
+                  </div>
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       </div>

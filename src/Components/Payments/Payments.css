@@ -4,6 +4,7 @@
 
 .paymentsTitleRow {
   display: flex;
+  color: black;
   justify-content: space-between;
   align-items: center;
 }

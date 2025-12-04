@@ -1,5 +1,8 @@
 import React from "react";
 import "./Footer.css";
+import { FaLinkedin } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+import { FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
@@ -61,15 +64,19 @@ function Footer() {
             <div className="footer-social">
               <span>Follow us</span>
               <div className="footer-social-icons">
+                  <a href="#" aria-label="Twitter">
+                  <FaInstagram />
+
+                </a>
                 <a href="#" aria-label="Instagram">
-                  ⓘ
+                  <FaLinkedin />
+
                 </a>
                 <a href="#" aria-label="Facebook">
-                  f
+                  <HiOutlineMail />
+
                 </a>
-                <a href="#" aria-label="Twitter">
-                  t
-                </a>
+              
               </div>
             </div>
           </div>

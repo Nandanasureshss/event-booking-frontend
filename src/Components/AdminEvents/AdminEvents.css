@@ -1,10 +1,8 @@
-
 .adminEventsPage {
   width: 100%;
   background: #f6f7fb;
   min-height: 100vh;
 }
-
 
 .adminEventsHeader {
   position: fixed;
@@ -21,7 +19,6 @@
   margin-left: 580px;
 }
 
-
 .adminEventsSidebar {
   position: fixed;
   top: 90px;
@@ -30,7 +27,6 @@
   height: calc(100vh - 90px);
   z-index: 15;
 }
-
 
 .adminEventsContainer {
   margin-left: 240px;
@@ -42,7 +38,6 @@
   padding: 35px 45px;
   background: #f6f7fb;
 }
-
 
 .eventsTitleRow {
   display: flex;
@@ -71,7 +66,6 @@
   font-weight: 700;
   color: #222;
 }
-
 
 .eventsStats {
   display: flex;
@@ -112,10 +106,17 @@
   color: #fff;
 }
 
+.gradient1 {
+  background: linear-gradient(135deg, #5ecbff, #c289ff);
+}
 
-.gradient1 { background: linear-gradient(135deg, #5ecbff, #c289ff); }
-.gradient2 { background: linear-gradient(135deg, #72d9ff, #b991ff); }
-.gradient3 { background: linear-gradient(135deg, #6dffa1, #c08dff); }
+.gradient2 {
+  background: linear-gradient(135deg, #72d9ff, #b991ff);
+}
+
+.gradient3 {
+  background: linear-gradient(135deg, #6dffa1, #c08dff);
+}
 
 .statLabel {
   font-size: 13px;
@@ -149,143 +150,191 @@
   font-size: 18px;
 }
 
-
 .recentTitle {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 15px;
 }
 
-
 .recentEvents {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 }
 
+.recentEvents > :nth-child(1) {
+  grid-column: 1;
+}
+
+.recentEvents > :nth-child(2) {
+  grid-column: 2;
+}
+
+.eventBigCard,
+.addEventCard {
+  width: 100%;
+  height: 320px;
+}
 
 .eventBigCard {
   display: flex;
-  width: 500px;           
-  height: 300px;         
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 5px 16px rgba(0,0,0,0.15);
 }
 
-.eventBigLeft {
-  width: 45%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+/* LEFT SIDE OF CARD */
+
+.eventLeft {
+  width: 40%;
   position: relative;
 }
 
-.eventBigImg {
+.eventImg {
   width: 100%;
-  flex: 1;
+  height: 100%;
   object-fit: cover;
 }
 
-.eventBigBadge {
+.eventBadge {
   position: absolute;
-  top: 12px;
+  top: 10px;
   left: 12px;
-  background: #ffb347;
-  padding: 5px 12px;
+  background: #ff7b00;
+  padding: 6px 14px;
   font-size: 12px;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: 7px;
   color: white;
-  z-index: 10;
+  z-index: 15;
 }
 
-.eventBigTitleBox {
+.eventLeftBottom {
   position: absolute;
-  top: 60px;
-  left: 12px;
-  color: white;
-  z-index: 10;
-}
-
-.eventBigMainTitle { font-size: 18px; font-weight: 700; }
-.eventBigDate { font-size: 13px; }
-
-.eventBigFooter {
-  height: 70px;                 
-  background: linear-gradient(90deg, #3557ff, #b85bff);
-  padding: 8px 12px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #384f9f, #b13bff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
   color: #fff;
-  font-size: 12px;
+}
+
+.leftDetails {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 3px;
+  gap: 4px;
+  flex: 1;
+  max-width: calc(100% - 150px);  
 }
 
-.eventBigRight {
-  width: 55%;
-  padding: 20px 24px;         
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;                
-}
-
-.eventBigRightTitle {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.eventBigRightDate {
-  color: #00a37a;
-  font-weight: 500;
-}
-
-.eventBigInfoRow {
+.leftDetails p {
+  margin: 0;
+  font-size: 13px;
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;        
+}
+
+.bookBtn {
+  flex-shrink: 0;
+  padding: 8px 24px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #49b3ff, #c45bff);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+
+
+.eventRight {
+  width: 60%;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eventTitle {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #111;
+}
+
+.eventDateText {
   color: #00a37a;
   font-size: 14px;
+  margin-bottom: 10px;
 }
 
-.eventBigInfoRow svg {
-  color: #999 !important;
-}
-
-.ticketSold {
-  color: #00a37a;
-  font-weight: 600;
-}
-
-.eventBigActions {
-  margin-top: 10px;
+.eventInfo {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 8px;
+  color: #00a37a;
+  font-size: 14px;
+  margin: 4px 0;
 }
 
-.bigEdit { color: #6d5bff; }
-.bigDelete { color: #ff4b4b; }
-.bigTrack { color: #00c67a; }
+.eventInfo svg {
+  color: #555 !important;
+}
+
+.eventActions {
+  margin-top: 14px;
+  display: flex;
+  gap: 22px;
+}
+
+.actionEdit {
+  color: #5d4bff;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.actionDelete {
+  color: #ff4b4b;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.actionTrack {
+  color: #00c67a;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
 .addEventCard {
-  width: 500px;                   
-  height: 300px;                   
   background: white;
   border-radius: 25px;
   border: 1px solid #eaeaea;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   text-align: center;
   padding: 20px;
   cursor: pointer;
-  transition: 0.2s ease-in-out;
 }
 
 .addEventCard:hover {
@@ -294,9 +343,9 @@
 }
 
 .plus {
-  font-size: 55px;       
+  font-size: 55px;
   font-weight: 300;
-  color: #2b8cff;       
+  color: #2b8cff;
   margin: 0;
 }
 
@@ -304,16 +353,84 @@
   margin-top: 10px;
   font-size: 26px;
   font-weight: 600;
-  color: #2b8cff;      
+  color: #2b8cff;
 }
 
 .subText {
   margin-top: 10px;
   width: 70%;
   font-size: 16px;
-  color: #0aab87;       
+  color: #0aab87;
   line-height: 1.4;
 }
+
+@media (max-width: 1200px) {
+  .eventsStats {
+    flex-wrap: wrap;
+  }
+  .eventsStatCard {
+    width: 48%;
+    height: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .adminEventsContainer {
+    margin-left: 0;
+    padding: 20px;
+  }
+  .adminEventsSidebar {
+    display: none;
+  }
+  .eventsStatCard {
+    width: 100%;
+  }
+  .eventBigCard,
+  .addEventCard {
+    width: 100%;
+    height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eventsTitle {
+    font-size: 22px;
+  }
+  .eventsTitleIcon {
+    width: 38px;
+    height: 38px;
+  }
+  .eventTitle {
+    font-size: 18px;
+  }
+  .eventRight {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .eventsTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .eventsStats {
+    gap: 12px;
+  }
+  .recentEvents {
+    grid-template-columns: 1fr;
+  }
+  .eventBigCard,
+  .addEventCard {
+    height: auto;
+    flex-direction: column;
+  }
+  .eventLeft,
+  .eventRight {
+    width: 100%;
+  }
+}
+
+
 @media (max-width: 1200px) {
   .eventsStats { flex-wrap: wrap; }
   .eventsStatCard { width: 48%; height: auto; }
