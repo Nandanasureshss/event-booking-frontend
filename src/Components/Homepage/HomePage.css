@@ -1,0 +1,256 @@
+/* ---------- GENERAL ---------- */
+.homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  height: 70vh;
+  background: url("/assets/hero.jpg") center/cover no-repeat;
+  position: relative;
+}
+
+.hero-overlay {
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  width: 70%;
+}
+
+.hero-content h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.search-box select {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  width: 150px;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  background: #ff4d6d;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ---------- POPULAR EVENTS ---------- */
+.popular-events {
+  padding: 50px 5%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-header a {
+  color: #ff4d6d;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.events-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.event-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding-bottom: 15px;
+}
+
+.event-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.event-card h3 {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.event-card p {
+  font-size: 14px;
+  margin: 10px;
+}
+
+.event-card button {
+  margin-left: 10px;
+  background: #6a4cfa;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ---------- STEPS SECTION ---------- */
+.steps {
+  background: #f9f9f9;
+  padding: 50px 5%;
+  text-align: center;
+}
+
+.step-cards {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.step-card {
+  width: 30%;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+}
+
+.step-card img {
+  width: 60px;
+  margin-bottom: 15px;
+}
+
+/* ---------- CATEGORIES ---------- */
+.categories {
+  padding: 50px 5%;
+}
+
+.category-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.category-card {
+  text-align: center;
+}
+
+.category-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.category-card span {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background: linear-gradient(90deg, #6a4cfa, #e857c0);
+  color: white;
+  padding: 50px 5%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-left {
+  width: 30%;
+}
+
+.footer-links,
+.footer-social {
+  width: 20%;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin: 8px 0;
+}
+
+.social-icons i {
+  font-size: 22px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+copyright {
+  text-align: center;
+  margin-top: 30px;
+}
+/* ---------- HERO SECTION ---------- */
+.hero {
+  height: 60vh;               /* reduced height */
+  position: relative;
+  overflow: hidden;           /* FIX: prevents zoom overflow */
+}
+
+/* Remove the background image completely */
+.hero {
+  background: none !important;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* FIX: stops zoom */
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

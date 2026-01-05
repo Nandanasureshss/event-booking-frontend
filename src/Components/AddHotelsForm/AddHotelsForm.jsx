@@ -4,6 +4,7 @@ import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotelsForm.css";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function AddHotelsForm() {
   const navigate = useNavigate();
@@ -12,47 +13,74 @@ function AddHotelsForm() {
     name: "",
     location: "",
     about: "",
-    time: "",
-    category: "3 Star",
-    features: [{ text: "Special Feature", images: [] }],
+    features: [
+      { text: "Deluxe", price: "", rooms: "", images: [] }
+    ]
   });
 
-  const handleFeatureChange = (index, value) => {
+  const handleFeatureChange = (index, field, value) => {
     const updated = [...hotel.features];
-    updated[index].text = value;
+    updated[index][field] = value;
     setHotel({ ...hotel, features: updated });
   };
 
   const addFeature = () => {
     setHotel({
       ...hotel,
-      features: [...hotel.features, { text: "Special Feature", images: [] }],
+      features: [
+        ...hotel.features,
+        { text: "Room Type", price: "", rooms: "", images: [] }
+      ]
     });
   };
 
   const handleImageUpload = (index, fileList) => {
     const files = Array.from(fileList);
-
-    const previews = files.map((f) => ({
-      file: f,
-      preview: URL.createObjectURL(f),
-    }));
-
     const updated = [...hotel.features];
-    updated[index].images = previews;
-
+    updated[index].images = files;
     setHotel({ ...hotel, features: updated });
   };
 
-  const handleSubmit = () => {
-    const saved = JSON.parse(localStorage.getItem("hotels")) || [];
-    saved.push(hotel);
-    localStorage.setItem("hotels", JSON.stringify(saved));
-    navigate("/admin/hotels");
+  // ✅ BACKEND SUBMIT
+  const handleSubmit = async () => {
+    try {
+      const roomCategories = hotel.features.map((f) => ({
+        name: f.text,
+        price: Number(f.price),
+        roomsAvailable: Number(f.rooms)
+      }));
+
+      const formData = new FormData();
+      formData.append("hotelName", hotel.name);
+      formData.append("location", hotel.location);
+      formData.append("description", hotel.about);
+      formData.append("roomCategories", JSON.stringify(roomCategories));
+
+      hotel.features.forEach((f) => {
+        f.images.forEach((img) => {
+          formData.append("mediaFiles", img);
+        });
+      });
+
+      const res = await axios.post(
+        "http://localhost:5000/api/hotels/add-hotel",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.data.success) {
+        navigate("/admin/hotels");
+      }
+
+    } catch (error) {
+      console.error("Hotel creation failed:", error);
+      alert("Failed to add hotel");
+    }
   };
 
   return (
     <div className="adminEventsPage">
+
       <div className="adminEventsHeader">
         <Topbar />
       </div>
@@ -63,64 +91,70 @@ function AddHotelsForm() {
 
       <div className="adminEventsContainer">
         <div className="addHotelWrapper">
+
+          {/* LEFT */}
           <div className="addHotelLeft">
             <h2>List New Hotel</h2>
 
             <label>Hotel Name</label>
             <input
               type="text"
-              placeholder="Title"
               onChange={(e) => setHotel({ ...hotel, name: e.target.value })}
             />
 
             <label>Location</label>
             <input
               type="text"
-              placeholder="Location"
               onChange={(e) => setHotel({ ...hotel, location: e.target.value })}
             />
 
-            <label>About</label>
+            <label>Description</label>
             <input
               type="text"
-              placeholder="About"
               onChange={(e) => setHotel({ ...hotel, about: e.target.value })}
             />
 
-            <label>Time</label>
-            <input
-              type="time"
-              onChange={(e) => setHotel({ ...hotel, time: e.target.value })}
-            />
-
-            <label>Hotel Category</label>
-            <select
-              onChange={(e) => setHotel({ ...hotel, category: e.target.value })}
-            >
-              <option>3 Star</option>
-              <option>4 Star</option>
-              <option>5 Star</option>
-            </select>
-
-            <label>Special Features</label>
+            <label>Room Categories</label>
 
             {hotel.features.map((f, index) => (
-              <input
-                key={index}
-                type="text"
-                value={f.text}
-                onChange={(e) => handleFeatureChange(index, e.target.value)}
-              />
+              <div key={index} className="roomCategoryBlock">
+                <input
+                  type="text"
+                  placeholder="Room Type"
+                  value={f.text}
+                  onChange={(e) =>
+                    handleFeatureChange(index, "text", e.target.value)
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Price"
+                  value={f.price}
+                  onChange={(e) =>
+                    handleFeatureChange(index, "price", e.target.value)
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Rooms Available"
+                  value={f.rooms}
+                  onChange={(e) =>
+                    handleFeatureChange(index, "rooms", e.target.value)
+                  }
+                />
+              </div>
             ))}
 
             <button className="addFeatureBtn" onClick={addFeature}>
-              +
+              + Add Room Category
             </button>
           </div>
 
+          {/* RIGHT */}
           <div className="addHotelRight">
             <h3>Media Upload</h3>
-            <p>Upload images for each feature</p>
 
             {hotel.features.map((f, index) => (
               <div className="uploadBlock" key={index}>
@@ -128,23 +162,23 @@ function AddHotelsForm() {
                   <input
                     type="file"
                     multiple
-                    onChange={(e) => handleImageUpload(index, e.target.files)}
+                    onChange={(e) =>
+                      handleImageUpload(index, e.target.files)
+                    }
                   />
 
-                  {f.images.length === 0 && (
+                  {f.images.length === 0 ? (
                     <span className="uploadIcon">
                       <AiOutlineCloudUpload />
                     </span>
-                  )}
-
-                  {f.images.length > 0 && (
+                  ) : (
                     <div className="previewContainer">
                       {f.images.map((img, i) => (
                         <img
                           key={i}
-                          src={img.preview}
-                          alt={`feature-${index}-${i}`}
+                          src={URL.createObjectURL(img)}
                           className="previewThumb"
+                          alt=""
                         />
                       ))}
                     </div>
@@ -154,9 +188,10 @@ function AddHotelsForm() {
             ))}
 
             <button className="submitHotelBtn" onClick={handleSubmit}>
-              Add
+              Add Hotel
             </button>
           </div>
+
         </div>
       </div>
     </div>

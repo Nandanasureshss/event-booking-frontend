@@ -1,0 +1,107 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: #f5f5f5;
+}
+
+.login-card {
+  background: white;
+  padding: 30px;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-card h2 {
+  text-align: center;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* -------- Custom Dropdown -------- */
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-selected {
+  padding: 12px;
+  border-radius: 6px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #000;
+}
+
+.arrow {
+  position: relative;
+  top: -3px;
+  font-size: 16px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #000;
+  z-index: 1000;
+}
+
+.dropdown-menu div {
+  padding: 12px;
+  cursor: pointer;
+  color: #000;
+}
+
+.dropdown-menu div:hover {
+  background: #f0f0f0;
+}
+
+/* -------- Mobile -------- */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 22px;
+  }
+
+  .dropdown-menu {
+    max-height: 160px;
+    overflow-y: auto;
+  }
+}
+/* 🔒 Mobile dropdown should push content, not overlap */
+@media (max-width: 480px) {
+  .dropdown-menu {
+    position: static;     /* ✅ key fix */
+    margin-top: 6px;
+    box-shadow: none;
+  }
+}

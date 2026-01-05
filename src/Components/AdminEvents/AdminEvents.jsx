@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AdminEvents.css";
+import axios from "axios";
 
 import {
   FiEdit,
@@ -20,18 +21,34 @@ const AdminEvents = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
+  // 🔹 FETCH EVENTS FROM BACKEND
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("events")) || [];
-    setEvents(saved);
+    fetchEvents();
   }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/events/all-events"
+      );
+
+      if (res.data.success) {
+        setEvents(res.data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch events:", error);
+    }
+  };
 
   return (
     <div className="adminEventsPage">
 
+      {/* TOPBAR */}
       <div className="adminEventsHeader">
         <Topbar />
       </div>
 
+      {/* SIDEBAR */}
       <div className="adminEventsSidebar">
         <AdminSidebar />
       </div>
@@ -39,6 +56,7 @@ const AdminEvents = () => {
       <div className="adminEventsContainer">
         <div className="adminEventsContent">
 
+          {/* TITLE ROW */}
           <div className="eventsTitleRow">
             <div className="eventsTitleIcon">
               <SlCalender className="calendarIcon" />
@@ -47,15 +65,17 @@ const AdminEvents = () => {
             <span className="eventsDateRange">Aug 01 - Aug 07</span>
           </div>
 
+          {/* STATS CARDS (STATIC UI) */}
           <div className="eventsStats">
+
             <div className="eventsStatCard">
               <div className="statIconBox gradient1">
                 <SlNotebook className="statIcon" />
               </div>
               <p className="statLabel">Listed events</p>
-              <h3 className="statNumber">12 Events</h3>
+              <h3 className="statNumber">{events.length} Events</h3>
               <p className="statChange positive">
-                <FiTrendingUp /> 18.5% compared to last month
+                <FiTrendingUp /> Live from database
               </p>
             </div>
 
@@ -66,7 +86,7 @@ const AdminEvents = () => {
               <p className="statLabel">Pending events</p>
               <h3 className="statNumber">02 Events</h3>
               <p className="statChange positive">
-                <LuClock3 /> Events scheduled in the future
+                <LuClock3 /> Scheduled
               </p>
             </div>
 
@@ -75,18 +95,23 @@ const AdminEvents = () => {
                 <SlUserFollow className="statIcon" />
               </div>
               <p className="statLabel">Registrations</p>
-              <h3 className="statNumber">23,4854</h3>
+              <h3 className="statNumber">23,485</h3>
               <p className="statChange positive">
-                <FiTrendingUp /> 18.5% compared to last month
+                <FiTrendingUp /> Updated
               </p>
             </div>
+
           </div>
 
           <h3 className="recentTitle">Recently Updated events</h3>
 
           <div className="recentEvents">
 
-            <div className="addEventCard" onClick={() => navigate("/admin/events/add")}>
+            {/* ADD EVENT CARD */}
+            <div
+              className="addEventCard"
+              onClick={() => navigate("/admin/events/add")}
+            >
               <p className="plus">+</p>
               <p className="addEventText">Add new event</p>
               <p className="subText">
@@ -94,64 +119,68 @@ const AdminEvents = () => {
               </p>
             </div>
 
-            {/* FIXED DEMO CARD (FIGURE STYLE) */}
-            <div className="eventBigCard">
-              <div className="eventLeft">
-                <span className="eventBadge">TRENDING</span>
+            {/* DYNAMIC EVENTS FROM BACKEND */}
+            {events.map((ev) => (
+              <div className="eventBigCard" key={ev._id}>
 
-                <img src="/assets/picture.jpg" className="eventImg" />
-
-                <div className="eventLeftBottom">
-                 
-                  <button className="bookBtn">Book Now</button>
-                </div>
-              </div>
-
-              <div className="eventRight">
-                <h3 className="eventTitle">Event Name</h3>
-                <p className="eventDateText">September 14</p>
-
-                <p className="eventInfo"><FiMapPin /> Riyadh Arena</p>
-                <p className="eventInfo"><FiClock /> 07:00pm – 11:00pm</p>
-                <p className="eventInfo"><FaTicketAlt /> From $49</p>
-                <p className="eventInfo"><FiTrendingUp /> 2.3k Ticket sold</p>
-
-                <div className="eventActions">
-                  <button className="actionEdit"><FiEdit /> Edit</button>
-                  <button className="actionDelete"><FiTrash2 /> Delete</button>
-                  <button className="actionTrack"><FiBarChart2 /> Track</button>
-                </div>
-              </div>
-            </div>
-
-            {/* DYNAMIC EVENTS (ALSO FIGURE STYLE) */}
-            {events.map((ev, index) => (
-              <div className="eventBigCard" key={index}>
                 <div className="eventLeft">
+                  <span className="eventBadge">LIVE</span>
 
-                  <img src={ev.image || "/assets/picture.jpg"} className="eventImg" />
+                  <img
+                    src={
+                      ev.mediaFiles?.length
+                        ? `http://localhost:5000/uploads/${ev.mediaFiles[0]}`
+                        : "/assets/picture.jpg"
+                    }
+                    className="eventImg"
+                    alt={ev.eventName}
+                  />
 
                   <div className="eventLeftBottom">
-                   
                     <button className="bookBtn">Book Now</button>
                   </div>
                 </div>
 
                 <div className="eventRight">
-                  <h3 className="eventTitle">{ev.title}</h3>
+                  <h3 className="eventTitle">{ev.eventName}</h3>
                   <p className="eventDateText">{ev.date}</p>
 
-                  <p className="eventInfo"><FiMapPin /> {ev.location}</p>
-                  <p className="eventInfo"><FiClock /> {ev.time}</p>
-                  <p className="eventInfo"><FaTicketAlt /> From $49</p>
-                  <p className="eventInfo"><FiTrendingUp /> 0 Tickets Sold</p>
+                  <p className="eventInfo">
+                    <FiMapPin /> {ev.location}
+                  </p>
+
+                  <p className="eventInfo">
+                    <FiClock /> {ev.time}
+                  </p>
+
+                  <p className="eventInfo">
+                    <FaTicketAlt /> From ₹
+                    {ev.seatingCategories?.[0]?.price || 0}
+                  </p>
+
+                  <p className="eventInfo">
+                    <FiTrendingUp />{" "}
+                    {ev.seatingCategories?.reduce(
+                      (total, seat) => total + seat.ticketsAvailable,
+                      0
+                    )} Tickets Available
+                  </p>
 
                   <div className="eventActions">
-                    <button className="actionEdit"><FiEdit /> Edit</button>
-                    <button className="actionDelete"><FiTrash2 /> Delete</button>
-                    <button className="actionTrack"><FiBarChart2 /> Track</button>
+                    <button className="actionEdit">
+                      <FiEdit /> Edit
+                    </button>
+
+                    <button className="actionDelete">
+                      <FiTrash2 /> Delete
+                    </button>
+
+                    <button className="actionTrack">
+                      <FiBarChart2 /> Track
+                    </button>
                   </div>
                 </div>
+
               </div>
             ))}
 

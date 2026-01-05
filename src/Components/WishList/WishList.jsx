@@ -1,103 +1,83 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../AllEvents/AllEvents.css";
+import axios from "axios";
 import { LuMapPin } from "react-icons/lu";
 import { CiClock1 } from "react-icons/ci";
 import { IoPricetagsOutline } from "react-icons/io5";
-import { IoIosHeart} from "react-icons/io";
-
-const eventsData = [
-    {
-        id: 1,
-        title: "Coldplay Live",
-        date: "September 14",
-        image: "/assets/picture1.jpg",
-    },
-    {
-        id: 2,
-        title: "Festive Fusion",
-        date: "October 10",
-        image: "/assets/picture2.jpg",
-    },
-    {
-        id: 3,
-        title: "Formula 1",
-        date: "September 26",
-        image: "/assets/picture3.jpg",
-    },
-    {
-        id: 4,
-        title: "Coldplay Live",
-        date: "September 14",
-        image: "/assets/picture1.jpg",
-    },
-    {
-        id: 5,
-        title: "Festive Fusion",
-        date: "October 10",
-        image: "/assets/picture2.jpg",
-    },
-    {
-        id: 6,
-        title: "Formula 1",
-        date: "September 26",
-        image: "/assets/picture3.jpg",
-    },
-    {
-        id: 7,
-        title: "Coldplay Live",
-        date: "September 14",
-        image: "/assets/picture1.jpg",
-    },
-    {
-        id: 8,
-        title: "Festive Fusion",
-        date: "October 10",
-        image: "/assets/picture2.jpg",
-    },
-    {
-        id: 9,
-        title: "Formula 1",
-        date: "September 26",
-        image: "/assets/picture3.jpg",
-    },
-];
+import { IoIosHeart } from "react-icons/io";
 
 const WishList = () => {
-    return (
-        <div className="all-events-page">
-            <h2 className="section-title">Popular Events</h2>
+  const [wishlist, setWishlist] = useState([]);
+const user = JSON.parse(localStorage.getItem("user"));
+const userEmail = user?.email;
 
-            <div className="events-grid">
-                {eventsData.map((event) => (
-                    <div className="event-card">
-                        <div className="card-image">
-                            <img src={event.image} alt={event.title} />
-                            <span className="tag">TRENDING</span>
-                             <h3 className="eventheading">{event.title}</h3>
-                            <p className="eventpara">{event.date}</p>
-                            <button className="wishlist-btn"><IoIosHeart color="red" />
-</button>
-                        </div>
+  useEffect(() => {
+    if (!userEmail) return;
 
-                        <div className="bottom-purple">
-                           
+    const fetchWishlist = async () => {
+      const res = await axios.get(
+        `http://localhost:5000/api/wishlist/${userEmail}`
+      );
+      setWishlist(res.data.data);
+    };
 
-                            <div className="bottom-row">
-                                <div>
-                                    <p><LuMapPin /> Riyadh Arena</p>
-                                    <p><CiClock1 />07:00pm - 11:00pm</p>
-                                    <p><IoPricetagsOutline /> From $49</p>
-                                </div>
+    fetchWishlist();
+  }, [userEmail]);
 
-                                <button className="book-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div className="all-events-page">
+      <h2 className="section-title">Wishlist</h2>
 
-                ))}
+      <div className="events-grid">
+        {wishlist.map((item) => {
+          const event = item.eventId;
+
+          return (
+            <div className="event-card" key={item._id}>
+              <div className="card-image">
+                <img
+                  src={
+                    event.mediaFiles?.length
+                      ? `http://localhost:5000/uploads/${event.mediaFiles[0]}`
+                      : "/assets/picture1.jpg"
+                  }
+                  alt={event.eventName}
+                />
+
+                <span className="tag">WISHLIST</span>
+
+                <h3 className="eventheading">{event.eventName}</h3>
+                <p className="eventpara">{event.date}</p>
+
+                <button className="wishlist-btn">
+                  <IoIosHeart color="red" />
+                </button>
+              </div>
+
+              <div className="bottom-purple">
+                <div className="bottom-row">
+                  <div>
+                    <p><LuMapPin /> {event.location}</p>
+                    <p><CiClock1 /> {event.time}</p>
+                    <p>
+                      <IoPricetagsOutline /> From ₹
+                      {event.seatingCategories?.[0]?.price || 0}
+                    </p>
+                  </div>
+
+                  <button className="book-btn">Book Now</button>
+                </div>
+              </div>
             </div>
-        </div>
-    );
+          );
+        })}
+
+        {wishlist.length === 0 && (
+          <p className="no-events">No wishlisted events yet</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default WishList;

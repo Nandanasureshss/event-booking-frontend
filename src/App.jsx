@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard.jsx";   // PUBLIC LAYOUT
@@ -24,10 +24,12 @@ import Payments from "./Components/Payments/Payments.jsx";
 import ManageUsers from "./Components/ManageUsers/ManageUsers.jsx";
 import TrackSales from "./Components/TrackSales/TrackSales.jsx";
 import RecentTicketsTable from "./Components/AdminLandingPage/RecentTicketsTable.jsx";
-
+import Login from "./Components/Login/Login.jsx";
+import VerifyOtp from "./Components/Login/VerifyOtp.jsx";
 function AppWrapper() {
   const location = useLocation();
-
+  const popularRef = useRef(null);
+  const categoryRef = useRef(null);
   // detect ANY admin page
   const isAdminPage = location.pathname.startsWith("/admin");
 
@@ -45,25 +47,36 @@ function AppWrapper() {
           <Route path="/admin/hotels/add" element={<AddHotelsForm />} />
           <Route path="/admin/payments" element={<Payments />} />
           <Route path="/admin/users" element={<ManageUsers />} />
-          <Route path="/admin/tracksales" element={<TrackSales />} />   
+          <Route path="/admin/tracksales" element={<TrackSales />} />
           {/* <Route path="/admin/recentticket" element={<RecentTicketsTable/>} /> */}
-            </Routes>
+        </Routes>
       ) : (
         // PUBLIC ROUTES
-        <Dashboard>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/upcoming-events" element={<UpcomingEvents />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/payment-options" element={<PaymentOptions />} />
-            <Route path="/allevents" element={<AllEvents />} />
-            <Route path="/event-details" element={<EventDetails />} />
-            <Route path="/wishlist" element={<WishList />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/myorder" element={<MyOrders />} />
-            <Route path="/orderdetails" element={<OrderDetails />} />
-          </Routes>
-        </Dashboard>
+        <Dashboard popularRef={popularRef} categoryRef={categoryRef}>
+  <Routes>
+    <Route
+      path="/"
+      element={
+        <Home
+          popularRef={popularRef}
+          categoryRef={categoryRef}
+        />
+      }
+    />
+    <Route path="/upcoming-events" element={<UpcomingEvents />} />
+    <Route path="/profile" element={<ProfilePage />} />
+    <Route path="/payment-options" element={<PaymentOptions />} />
+    <Route path="/allevents" element={<AllEvents />} />
+    <Route path="/event-details/:id" element={<EventDetails />} />
+    <Route path="/wishlist" element={<WishList />} />
+    <Route path="/cart" element={<Cart />} />
+    <Route path="/myorder" element={<MyOrders />} />
+    <Route path="/orderdetails" element={<OrderDetails />} />
+    <Route path="/login" element={<Login/>} />
+<Route path="/verify-otp" element={<VerifyOtp />} />
+  </Routes>
+</Dashboard>
+
       )}
     </>
   );

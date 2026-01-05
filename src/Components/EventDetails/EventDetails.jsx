@@ -1,21 +1,108 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./EventDetails.css";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoStar } from "react-icons/io5";
 import { FaWifi, FaSwimmer, FaTimes } from "react-icons/fa";
 import { MdBreakfastDining } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const EventDetails = () => {
-
   const navigate = useNavigate();
-  const [adultCount, setAdultCount] = useState(0); 
-  const [childCount, setChildCount] = useState(0); 
+  const { id: eventId } = useParams();
+
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [hotels, setHotels] = useState([]); 
+
+  const [adultCount, setAdultCount] = useState(0);
+  const [childCount, setChildCount] = useState(0);
+  const [seatType, setSeatType] = useState("");
 
   const [cart, setCart] = useState({
     ticket: null,
-    hotel: null,
+    hotels: [],
   });
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user?.email;
+
+  /* ---------------- FETCH EVENT ---------------- */
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/events/${eventId}`
+        );
+
+        const eventData = res.data.data;
+        setEvent(eventData);
+
+        if (eventData.seatingCategories?.length > 0) {
+          setSeatType(eventData.seatingCategories[0].name);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [eventId]);
+
+  /* ---------------- FETCH HOTELS (CORRECT BACKEND MAPPING) ---------------- */
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/hotels/all-hotels"
+        );
+
+        const normalizedHotels = res.data.data.map((hotel) => ({
+          id: hotel._id,
+
+          // ✅ SAME AS AddHotels.jsx
+          name: hotel.hotelName,
+          image: hotel.mediaFiles?.length
+            ? `http://localhost:5000/uploads/${hotel.mediaFiles[0]}`
+            : "/assets/picture.jpg",
+
+          location: hotel.location,
+          price: hotel.roomCategories?.[0]?.price || 0,
+
+          rating: 4.5,
+          reviews: 100,
+          distance: hotel.location || "Near event location",
+
+          amenities: [
+            "Free WiFi",
+            "Breakfast Included",
+            "Pool",
+            "Free Cancellation",
+          ],
+        }));
+
+        setHotels(normalizedHotels);
+      } catch (error) {
+        console.error("Hotel fetch failed", error);
+      }
+    };
+
+    fetchHotels();
+  }, []);
+
+  if (loading) return <p style={{ textAlign: "center" }}>Loading event...</p>;
+  if (!event) return <p style={{ textAlign: "center" }}>Event not found</p>;
+
+  /* ---------------- PRICE LOGIC ---------------- */
+  const selectedCategory = event.seatingCategories.find(
+    (cat) => cat.name === seatType
+  );
+
+  const ticketPrice = selectedCategory ? selectedCategory.price : 0;
+  const totalTickets = adultCount + childCount;
 
   const handleIncrement = (setter, value) => setter(value + 1);
   const handleDecrement = (setter, value) =>
@@ -28,282 +115,228 @@ const EventDetails = () => {
     "Free Cancellation": <FaTimes />,
   };
 
-  const hotels = [
-    {
-      id: 1,
-      name: "Lorem Ipsum Hotel Abu Dhabi",
-      rating: 4.9,
-      reviews: 352,
-      distance: "1.2 km from center",
-      price: 220,
-      image: "/assets/picture1.jpg",
-      amenities: ["Free WiFi", "Breakfast Included", "Pool", "Free Cancellation"],
-    },
-    {
-      id: 2,
-      name: "Lorem Ipsum Hotel Abu Dhabi",
-      rating: 4.9,
-      reviews: 352,
-      distance: "1.2 km from center",
-      price: 120,
-      image: "/assets/picture2.jpg",
-      amenities: ["Free WiFi", "Breakfast Included", "Pool", "Free Cancellation"],
-    },
-    {
-      id: 3,
-      name: "Lorem Ipsum Hotel Abu Dhabi",
-      rating: 4.9,
-      reviews: 352,
-      distance: "1.2 km from center",
-      price: 120,
-      image: "/assets/picture3.jpg",
-      amenities: ["Free WiFi", "Breakfast Included", "Pool", "Free Cancellation"],
-    },
-  ];
+  /* ---------------- ADD TICKET ---------------- */
+const addTicketToCart = async () => {
+  if (!userEmail) {
+    alert("Please login to book tickets");
+    navigate("/login");
+    return;
+  }
 
-  const [filters, setFilters] = useState({ sort: "", hotel: "", location: "" });
-  const [filteredHotels, setFilteredHotels] = useState([]);
+  if (adultCount === 0) {
+    alert("Please select at least 1 adult.");
+    return;
+  }
 
-  const updateFilter = (type, value) => {
-    const newFilters = { ...filters, [type]: value };
-    setFilters(newFilters);
+  const totalAmount = totalTickets * ticketPrice;
 
-    if (!newFilters.sort && !newFilters.hotel && !newFilters.location) {
-      setFilteredHotels([]);
-      return;
-    }
-
-    let result = [...hotels];
-
-    if (newFilters.hotel) {
-      result = result.filter((h) => h.name === newFilters.hotel);
-    }
-
-    if (newFilters.location) {
-      result = result.filter((h) => h.distance.includes(newFilters.location));
-    }
-
-    if (newFilters.sort === "price_low")
-      result.sort((a, b) => a.price - b.price);
-
-    if (newFilters.sort === "price_high")
-      result.sort((a, b) => b.price - a.price);
-
-    if (newFilters.sort === "rating")
-      result.sort((a, b) => b.rating - a.rating);
-
-    setFilteredHotels(result);
-  };
-
-  const clearFilters = () => {
-    setFilters({ sort: "", hotel: "", location: "" });
-    setFilteredHotels([]);
-  };
-
-
-  const addTicketToCart = () => {
-    if (adultCount === 0) {
-      alert("Please select at least 1 adult.");
-      return;
-    }
-
-    setCart({
-      ...cart,
-      ticket: {
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/ticketBooking/create",
+      {
+        eventId,
+        seatType,
         adults: adultCount,
         children: childCount,
-        total: (adultCount + childCount) * 49,
+        pricePerTicket: ticketPrice,
+        totalAmount,
+        user: {
+          email: userEmail, // ✅ LOGGED-IN USER EMAIL
+        },
+      }
+    );
+
+    if (res.data.ticketType === "online") {
+      alert("Ticket access details have been sent to your email.");
+    }
+
+    if (res.data.ticketType === "pdf") {
+      alert("PDF ticket has been sent to your email.");
+    }
+
+    setCart({
+      ticket: {
+        seatType,
+        adults: adultCount,
+        children: childCount,
+        totalTickets,
+        pricePerTicket: ticketPrice,
+        total: totalAmount,
+        eventName: event.eventName,
+        image: event.mediaFiles?.[0],
       },
+      hotels: [],
     });
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Ticket booking failed");
+  }
+};
+
 
   const addHotelToCart = (hotel) => {
-    setCart({
-      ...cart,
-      hotel: hotel,
-    });
+    if (!cart.ticket) {
+      alert("Please select the ticket first");
+      return;
+    }
+
+    if (isHotelAdded(hotel.id)) {
+      goToCart();
+      return;
+    }
+
+    if (cart.hotels.length >= cart.ticket.totalTickets) {
+      alert(`You can add only ${cart.ticket.totalTickets} hotel room(s)`);
+      return;
+    }
+
+    setCart((prev) => ({
+      ...prev,
+      hotels: [...prev.hotels, hotel],
+    }));
   };
+
 
   const goToCart = () => {
+    if (cart.hotels.length !== cart.ticket.totalTickets) {
+      alert(
+        `Please select ${cart.ticket.totalTickets} hotel room(s)`
+      );
+      return;
+    }
     navigate("/cart", { state: cart });
   };
-
+  const isHotelAdded = (hotelId) => {
+    return cart.hotels.some((h) => h.id === hotelId);
+  };
   return (
     <div className="EventDetails">
-
       {/* Banner */}
       <div className="EventDetailsBanner">
-        <img src="/assets/picture4.jpg" alt="banner" />
-        <h1 className="EventDetailsTitle">FESTIVAL LIGHTS</h1>
+        <img
+          src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+          alt={event.eventName}
+        />
+        <h1 className="EventDetailsTitle">{event.eventName}</h1>
       </div>
 
-      {/* -------------------- Ticket Section -------------------- */}
+      {/* Ticket Section (UNCHANGED) */}
       <div className="EventDetailsSelectorSection">
         <div className="EventDetailsLeftBox">
-          <img src="/assets/picture5.jpg" alt="event" className="EventDetailsMiniImage" />
+          <img
+            src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+            alt={event.eventName}
+            className="EventDetailsMiniImage"
+          />
         </div>
 
         <div className="EventDetailsRightBox">
-
           <div className="EventDetailsSeatRow">
             <label>Seat Type</label>
-            <select>
-              <option>VIP</option>
-              <option>VVIP</option>
-              <option>Normal</option>
+
+            <select
+              value={seatType}
+              onChange={(e) => setSeatType(e.target.value)}
+            >
+              {event.seatingCategories.map((cat) => (
+                <option
+                  key={cat._id}
+                  value={cat.name}
+                  disabled={cat.ticketsAvailable === 0}
+                >
+                  {cat.name}
+                  {cat.ticketsAvailable === 0 ? " (Sold Out)" : ""}
+                </option>
+              ))}
             </select>
 
             <div className="EventDetailsPrice">
               <span className="EventDetailsPricePr">Price:</span>
-              <span className="EventDetailsPriceValue">$49</span>
-              <span className="EventDetailsPriceText">per person</span>
+              <span className="EventDetailsPriceValue">
+                ₹{ticketPrice}
+              </span>
+              <span className="EventDetailsPriceText">
+                per person
+              </span>
             </div>
           </div>
 
-          <div className="EventDetailsGuestCount">
-            <div className="EventDetailsGuestWrapper">
-
-              <div className="GuestLeft">
-
-                <div className="GuestCard">
-                  <div className="EventDetailsCounterRow">
-                    <span className="EventDetailsLabel">Adults</span>
-                    <div className="EventDetailsCounterBox">
-                      <button className="EventDetailsMinusBtn"
-                        onClick={() => handleDecrement(setAdultCount, adultCount)}> - </button>
-
-                      <span className="EventDetailsCountNumber">{adultCount}</span>
-
-                      <button className="EventDetailsPlusBtn"
-                        onClick={() => handleIncrement(setAdultCount, adultCount)}> + </button>
-
-                      <button className="EventDetailsTrashBtn"
-                        onClick={() => setAdultCount(0)}>
-                        <RiDeleteBin5Line />
-                      </button>
-                    </div>
+          <div className="EventDetailsGuestWrapper">
+            <div className="GuestLeft">
+              {/* Adults */}
+              <div className="GuestCard">
+                <div className="EventDetailsCounterRow">
+                  <span className="EventDetailsLabel">Adults</span>
+                  <div className="EventDetailsCounterBox">
+                    <button
+                      className="EventDetailsMinusBtn"
+                      onClick={() =>
+                        handleDecrement(setAdultCount, adultCount)
+                      }
+                    >
+                      -
+                    </button>
+                    <span className="EventDetailsCountNumber">
+                      {adultCount}
+                    </span>
+                    <button
+                      className="EventDetailsPlusBtn"
+                      onClick={() =>
+                        handleIncrement(setAdultCount, adultCount)
+                      }
+                    >
+                      +
+                    </button>
+                    <button
+                      className="EventDetailsTrashBtn"
+                      onClick={() => setAdultCount(0)}
+                    >
+                      <RiDeleteBin5Line />
+                    </button>
                   </div>
                 </div>
+              </div>
 
-                <div className="GuestCard">
-                  <div className="EventDetailsCounterRow">
-                    <span className="EventDetailsLabel">Children (&lt; 5 yrs)</span>
-                    <div className="EventDetailsCounterBox">
-                      <button className="EventDetailsMinusBtn"
-                        onClick={() => handleDecrement(setChildCount, childCount)}> - </button>
-
-                      <span className="EventDetailsCountNumber">{childCount}</span>
-
-                      <button className="EventDetailsPlusBtn"
-                        onClick={() => handleIncrement(setChildCount, childCount)}> + </button>
-
-                      <button className="EventDetailsTrashBtn"
-                        onClick={() => setChildCount(0)}>
-                        <RiDeleteBin5Line />
-                      </button>
-                    </div>
+              {/* Children */}
+              <div className="GuestCard">
+                <div className="EventDetailsCounterRow">
+                  <span className="EventDetailsLabel">
+                    Children (&lt; 5 yrs)
+                  </span>
+                  <div className="EventDetailsCounterBox">
+                    <button
+                      className="EventDetailsMinusBtn"
+                      onClick={() =>
+                        handleDecrement(setChildCount, childCount)
+                      }
+                    >
+                      -
+                    </button>
+                    <span className="EventDetailsCountNumber">
+                      {childCount}
+                    </span>
+                    <button
+                      className="EventDetailsPlusBtn"
+                      onClick={() =>
+                        handleIncrement(setChildCount, childCount)
+                      }
+                    >
+                      +
+                    </button>
+                    <button
+                      className="EventDetailsTrashBtn"
+                      onClick={() => setChildCount(0)}
+                    >
+                      <RiDeleteBin5Line />
+                    </button>
                   </div>
                 </div>
-
-                <p className="EventDetailsFreeEntryText">
-                  Free entry for children below 5 years
-                </p>
-
-                {cart.ticket ? (
-                  <button
-                    className="event-cta"
-                    style={{ marginTop: "10px" }}
-                    onClick={goToCart}
-                  >
-                    Go to Cart
-                  </button>
-                ) : (
-                  <button
-                    className="event-cta"
-                    style={{ marginTop: "10px" }}
-                    onClick={addTicketToCart}
-                    disabled={adultCount === 0}
-                  >
-                    Add Ticket to Cart
-                  </button>
-                )}
-
               </div>
 
-              {/* Total */}
-              <div className="GuestTotalBox">
-                <p>Total: <span>${(adultCount + childCount) * 49}</span></p>
-                <small>(Price excludes 5% VAT)</small>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div className="EventDetailsFilters">
-        <select value={filters.sort} onChange={(e) => updateFilter("sort", e.target.value)}>
-          <option value="">Sort By</option>
-          <option value="price_low">Price Low → High</option>
-          <option value="price_high">Price High → Low</option>
-          <option value="rating">Top Rated</option>
-        </select>
-
-        <select value={filters.hotel} onChange={(e) => updateFilter("hotel", e.target.value)}>
-          <option value="">Hotel</option>
-          {hotels.map((h) => (
-            <option key={h.id} value={h.name}>{h.name}</option>
-          ))}
-        </select>
-
-        <select value={filters.location} onChange={(e) => updateFilter("location", e.target.value)}>
-          <option value="">Location</option>
-          <option value="1.2 km">1.2 km from center</option>
-        </select>
-
-        <span className="EventDetailsClearBtn" onClick={clearFilters}>
-          Clear All
-        </span>
-      </div>
-
-      <div className="EventDetailsHotelList">
-        {filteredHotels.map((hotel) => (
-          <div className="EventDetailsHotelCard" key={hotel.id}>
-
-            <div className="EventDetailsHotelLeft">
-              <span className="EventDetailsTopRated">Top Rated</span>
-              <img src={hotel.image} alt={hotel.name} />
-            </div>
-
-            <div className="EventDetailsHotelRight">
-              <h3>{hotel.name}</h3>
-
-              <p className="EventDetailsRating">
-                <span className="eventDetailStar">
-                  <IoStar /> {hotel.rating}
-                </span>
-                ({hotel.reviews} Reviews)
-              </p>
-
-              <p className="EventDetailsDistance">{hotel.distance}</p>
-
-              <ul className="EventDetailsAmenities">
-                {hotel.amenities.map((item, index) => (
-                  <li key={index}>
-                    {amenityIcons[item]} {item}
-                  </li>
-                ))}
-              </ul>
-
-              <a className="EventDetailsMapLink">Show on Map</a>
-
-              <p className="EventDetailsPricePerNight">${hotel.price} / night</p>
-
-              {cart.hotel ? (
+              {cart.ticket ? (
                 <button
                   className="event-cta"
-                  style={{ marginTop: "10px", width: "150px" }}
+                  style={{ marginTop: "10px" }}
                   onClick={goToCart}
                 >
                   Go to Cart
@@ -311,18 +344,70 @@ const EventDetails = () => {
               ) : (
                 <button
                   className="event-cta"
-                  style={{ marginTop: "10px", width: "150px" }}
-                  onClick={() => addHotelToCart(hotel)}
+                  style={{ marginTop: "10px" }}
+                  onClick={addTicketToCart}
+                  disabled={adultCount === 0 || ticketPrice === 0}
                 >
-                  Add Hotel
+                  Add Ticket to Cart
                 </button>
               )}
+            </div>
+
+            <div className="GuestTotalBox">
+              <p>
+                Total:{" "}
+                <span>
+                  ₹{(adultCount + childCount) * ticketPrice}
+                </span>
+              </p>
+              <small>(Price excludes 5% VAT)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hotels (DESIGN UNCHANGED) */}
+      <div className="EventDetailsHotelList">
+        {hotels.map((hotel) => (
+          <div className="EventDetailsHotelCard" key={hotel.id}>
+            <div className="EventDetailsHotelLeft">
+              <span className="EventDetailsTopRated">Top Rated</span>
+              <img src={hotel.image} alt={hotel.name} />
+            </div>
+
+            <div className="EventDetailsHotelRight">
+              <h3>{hotel.name}</h3>
+              <p className="EventDetailsRating">
+                <IoStar /> {hotel.rating} ({hotel.reviews} Reviews)
+              </p>
+              <p className="EventDetailsDistance">
+                {hotel.distance}
+              </p>
+
+              <ul className="EventDetailsAmenities">
+                {hotel.amenities.map((item, i) => (
+                  <li key={i}>
+                    {amenityIcons[item]} {item}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="EventDetailsPricePerNight">
+                ₹{hotel.price} / night
+              </p>
+
+              <button
+                className="event-cta"
+                style={{ marginTop: "10px", width: "150px" }}
+                onClick={() => addHotelToCart(hotel)}
+              >
+                {isHotelAdded(hotel.id) ? "Go to Cart" : "Add Hotel"}
+              </button>
 
             </div>
           </div>
         ))}
       </div>
-
     </div>
   );
 };

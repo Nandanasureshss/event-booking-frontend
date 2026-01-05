@@ -1,8 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddEvent.css";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const EVENT_CATEGORIES = [
+  "Music",
+  "Dance Show",
+  "Stage Show",
+  "Comedy Show",
+  "DJ Night",
+  "Theatre"
+];
 
 function AddEvent() {
   const navigate = useNavigate();
@@ -13,144 +23,218 @@ function AddEvent() {
     date: "",
     time: "",
     eventCategory: "",
-    seatingCategories: ["Category 1", "Category 2"],
-    pricing: {},
+    isPopular: false,
+    ticketType: "online",
+    seatingCategories: [],
     images: []
   });
 
-  const handleSeatingChange = (index, value) => {
-    const updated = [...formData.seatingCategories];
-    updated[index] = value;
-
-    setFormData({
-      ...formData,
-      seatingCategories: updated
-    });
-  };
+  /* ---------------- CATEGORY HANDLERS ---------------- */
 
   const addNewCategory = () => {
     setFormData({
       ...formData,
-      seatingCategories: [...formData.seatingCategories, `Category ${formData.seatingCategories.length + 1}`]
+      seatingCategories: [
+        ...formData.seatingCategories,
+        {
+          name: `Category ${formData.seatingCategories.length + 1}`,
+          price: "",
+          purchasePrice: "",
+          tickets: "",
+          ticketPdf: null
+        }
+      ]
     });
   };
 
-  const handlePricingChange = (category, field, value) => {
-    setFormData({
-      ...formData,
-      pricing: {
-        ...formData.pricing,
-        [category]: {
-          ...formData.pricing[category],
-          [field]: value
-        }
-      }
-    });
+  const handleCategoryChange = (index, field, value) => {
+    const updated = [...formData.seatingCategories];
+    updated[index][field] = value;
+    setFormData({ ...formData, seatingCategories: updated });
   };
+
+  const handlePdfUpload = (index, file) => {
+    const updated = [...formData.seatingCategories];
+    updated[index].ticketPdf = file;
+    setFormData({ ...formData, seatingCategories: updated });
+  };
+
+  /* ---------------- IMAGE HANDLER ---------------- */
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData({
-      ...formData,
-      images: files
-    });
+    setFormData({ ...formData, images: Array.from(e.target.files) });
   };
 
-  const handleSubmit = (e) => {
+  /* ---------------- SUBMIT ---------------- */
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const saved = JSON.parse(localStorage.getItem("events")) || [];
-    saved.push(formData);
-    localStorage.setItem("events", JSON.stringify(saved));
+    const payload = new FormData();
 
-    navigate("/admin/events");
+    payload.append("eventName", formData.title);
+    payload.append("location", formData.location);
+    payload.append("date", formData.date);
+    payload.append("time", formData.time);
+    payload.append("eventCategory", formData.eventCategory);
+    payload.append("isPopular", formData.isPopular);
+    payload.append("ticketType", formData.ticketType);
+
+    payload.append(
+      "seatingCategories",
+      JSON.stringify(
+        formData.seatingCategories.map(({ ticketPdf, ...rest }) => rest)
+      )
+    );
+
+    formData.seatingCategories.forEach((cat, index) => {
+      if (cat.ticketPdf) {
+        payload.append(`ticketPdf_${index}`, cat.ticketPdf);
+      }
+    });
+
+    formData.images.forEach((img) => payload.append("mediaFiles", img));
+
+    const res = await axios.post(
+      "http://localhost:5000/api/events/add-event",
+      payload,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+
+    if (res.data.success) navigate("/admin/events");
   };
 
   return (
     <div className="adminEventsPage">
-      <div className="adminEventsHeader">
-        <Topbar />
-      </div>
-
-      <div className="adminEventsSidebar">
-        <AdminSidebar />
-      </div>
+      <div className="adminEventsHeader"><Topbar /></div>
+      <div className="adminEventsSidebar"><AdminSidebar /></div>
 
       <div className="adminEventsContainer">
         <div className="addEventWrapper">
 
+          {/* LEFT SIDE */}
           <div className="addEventLeft">
             <h2>Add New Event</h2>
 
             <form onSubmit={handleSubmit}>
               <label>Event Name</label>
-              <input
-                type="text"
-                placeholder="Title"
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
+              <input onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
 
               <label>Location</label>
-              <input
-                type="text"
-                placeholder="Location"
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              />
+              <input onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
 
               <label>Date</label>
-              <input
-                type="date"
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              />
+              <input type="date" onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
 
               <label>Time</label>
-              <input
-                type="time"
-                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-              />
+              <input type="time" onChange={(e) => setFormData({ ...formData, time: e.target.value })} />
 
               <label>Event Category</label>
-              <input
-                type="text"
-                placeholder="Music / Sports / Expo"
+              <select
+                value={formData.eventCategory}
                 onChange={(e) => setFormData({ ...formData, eventCategory: e.target.value })}
+              >
+                <option value="">Select</option>
+                {EVENT_CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+
+              <label>Mark as Popular</label>
+              <input
+                type="checkbox"
+                checked={formData.isPopular}
+                onChange={(e) => setFormData({ ...formData, isPopular: e.target.checked })}
               />
 
-              <label>Seating Categories</label>
+              <label>Ticket Type</label>
+              <div className="ticketTypeToggle">
+                <label>
+                  <input
+                    type="radio"
+                    value="online"
+                    checked={formData.ticketType === "online"}
+                    onChange={(e) => setFormData({ ...formData, ticketType: e.target.value })}
+                  />
+                  Online Ticket
+                </label>
 
-              {formData.seatingCategories.map((cat, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  value={cat}
-                  onChange={(e) => handleSeatingChange(index, e.target.value)}
-                />
-              ))}
+                <label>
+                  <input
+                    type="radio"
+                    value="pdf"
+                    checked={formData.ticketType === "pdf"}
+                    onChange={(e) => setFormData({ ...formData, ticketType: e.target.value })}
+                  />
+                  PDF Ticket
+                </label>
+              </div>
 
-              <button type="button" className="addCategoryBtn" onClick={addNewCategory}>
+              {/* ✅ CATEGORY TABS */}
+              {formData.seatingCategories.length > 0 && (
+                <div className="categoryTabs">
+                  {formData.seatingCategories.map((cat, index) => (
+                    <div key={index} className="categoryTab">
+                      {cat.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="addCategoryBtn"
+                onClick={addNewCategory}
+              >
                 + Add Category
               </button>
             </form>
           </div>
 
+          {/* RIGHT SIDE */}
           <div className="addEventRight">
             <h2>Price based on Seating Category</h2>
 
             {formData.seatingCategories.map((cat, index) => (
               <div className="priceBlock" key={index}>
-                <label>{cat} Price</label>
+                <h4>{cat.name}</h4>
+
+                <label>Category Price</label>
                 <input
                   type="number"
-                  placeholder="$ 120.00"
-                  onChange={(e) => handlePricingChange(cat, "price", e.target.value)}
+                  onChange={(e) =>
+                    handleCategoryChange(index, "price", e.target.value)
+                  }
                 />
 
-                <label>{cat} Tickets</label>
+                <label>Purchase Price</label>
                 <input
                   type="number"
-                  placeholder="1200"
-                  onChange={(e) => handlePricingChange(cat, "tickets", e.target.value)}
+                  onChange={(e) =>
+                    handleCategoryChange(index, "purchasePrice", e.target.value)
+                  }
                 />
+
+                <label>Tickets Available</label>
+                <input
+                  type="number"
+                  onChange={(e) =>
+                    handleCategoryChange(index, "tickets", e.target.value)
+                  }
+                />
+
+                {formData.ticketType === "pdf" && (
+                  <>
+                    <label>Upload {cat.name} Ticket PDF</label>
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      onChange={(e) =>
+                        handlePdfUpload(index, e.target.files[0])
+                      }
+                    />
+                  </>
+                )}
               </div>
             ))}
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotels.css";
+import axios from "axios";
 
 import {
   FiEdit,
@@ -13,7 +14,7 @@ import {
 } from "react-icons/fi";
 import { SlCalender, SlNotebook, SlUserFollow } from "react-icons/sl";
 import { LuClock3 } from "react-icons/lu";
-import { FaDollarSign, FaTicketAlt } from "react-icons/fa";
+import { FaDollarSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const AddHotels = () => {
@@ -21,29 +22,40 @@ const AddHotels = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("hotels")) || [];
-    setHotels(saved);
+    fetchHotels();
   }, []);
 
-  const getCoverImage = (hotel) => {
-    const firstFeature = hotel.features && hotel.features[0];
-    const firstImg = firstFeature && firstFeature.images && firstFeature.images[0];
-    if (firstImg && firstImg.preview) return firstImg.preview;
-    return "/assets/picture.jpg";
+  const fetchHotels = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/hotels/all-hotels"
+      );
+
+      if (res.data.success) {
+        setHotels(res.data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch hotels:", error);
+    }
   };
 
   return (
     <div className="adminEventsPage">
+
+      {/* TOPBAR */}
       <div className="adminEventsHeader">
         <Topbar />
       </div>
 
+      {/* SIDEBAR */}
       <div className="adminEventsSidebar">
         <AdminSidebar />
       </div>
 
       <div className="adminEventsContainer">
         <div className="adminEventsContent">
+
+          {/* TITLE */}
           <div className="eventsTitleRow">
             <div className="eventsTitleIcon">
               <SlCalender className="calendarIcon" />
@@ -52,7 +64,9 @@ const AddHotels = () => {
             <span className="eventsDateRange">Aug 01 - Aug 07</span>
           </div>
 
+          {/* STATS */}
           <div className="eventsStats">
+
             <div className="eventsStatCard">
               <div className="statIconBox gradient1">
                 <SlNotebook className="statIcon" />
@@ -60,7 +74,7 @@ const AddHotels = () => {
               <p className="statLabel">Listed Hotels</p>
               <h3 className="statNumber">{hotels.length} Hotels</h3>
               <p className="statChange positive">
-                <FiTrendingUp className="trendIcon" /> Updated Recently
+                <FiTrendingUp /> Live from database
               </p>
             </div>
 
@@ -71,7 +85,7 @@ const AddHotels = () => {
               <p className="statLabel">Revenue</p>
               <h3 className="statNumber">$12,450</h3>
               <p className="statChange positive">
-                <LuClock3 className="pendingIcon" /> Monthly Estimate
+                <LuClock3 /> Monthly Estimate
               </p>
             </div>
 
@@ -82,14 +96,17 @@ const AddHotels = () => {
               <p className="statLabel">Bookings</p>
               <h3 className="statNumber">4,582</h3>
               <p className="statChange positive">
-                <FiTrendingUp className="trendIcon" /> Active Users
+                <FiTrendingUp /> Active Users
               </p>
             </div>
+
           </div>
 
           <h3 className="recentTitle">Recently Added Hotels</h3>
 
           <div className="recentEvents">
+
+            {/* ADD HOTEL CARD */}
             <div
               className="addEventCard"
               onClick={() => navigate("/admin/hotels/add")}
@@ -101,54 +118,66 @@ const AddHotels = () => {
               </p>
             </div>
 
-            {hotels.map((hotel, index) => (
-              <div className="eventBigCard" key={index}>
+            {/* HOTELS FROM BACKEND */}
+            {hotels.map((hotel) => (
+              <div className="eventBigCard" key={hotel._id}>
+
                 <div className="eventLeft">
                   <img
-                    src={getCoverImage(hotel)}
+                    src={
+                      hotel.mediaFiles?.length
+                        ? `http://localhost:5000/uploads/${hotel.mediaFiles[0]}`
+                        : "/assets/picture.jpg"
+                    }
                     className="eventImg"
-                    alt="hotel"
+                    alt={hotel.hotelName}
                   />
 
                   <div className="eventLeftBottom">
-                  
                     <button className="bookBtn">Book Now</button>
                   </div>
                 </div>
 
                 <div className="eventRight">
-                  <h3 className="eventTitle">{hotel.name || "Hotel Name"}</h3>
-                  <p className="eventDateText">{hotel.category || "3 Star"}</p>
+                  <h3 className="eventTitle">{hotel.hotelName}</h3>
+                  <p className="eventDateText">{hotel.description}</p>
 
                   <p className="eventInfo">
-                    <FiMapPin /> {hotel.location || "Location"}
+                    <FiMapPin /> {hotel.location}
                   </p>
+
                   <p className="eventInfo">
-                    <FiClock /> {hotel.time || "Timing"}
+                    <FaDollarSign /> From ₹
+                    {hotel.roomCategories?.[0]?.price || 0}
                   </p>
+
                   <p className="eventInfo">
-                    <FaDollarSign /> From $49
-                  </p>
-                  <p className="eventInfo">
-                    <SlUserFollow /> 0 Bookings
+                    <SlUserFollow />{" "}
+                    {hotel.roomCategories?.reduce(
+                      (total, room) => total + room.roomsAvailable,
+                      0
+                    )} Rooms Available
                   </p>
 
                   <div className="eventActions">
                     <button className="actionEdit">
                       <FiEdit /> Edit
                     </button>
+
                     <button className="actionDelete">
                       <FiTrash2 /> Delete
                     </button>
+
                     <button className="actionTrack">
                       <FiBarChart2 /> Track
                     </button>
                   </div>
                 </div>
+
               </div>
             ))}
-          </div>
 
+          </div>
         </div>
       </div>
     </div>

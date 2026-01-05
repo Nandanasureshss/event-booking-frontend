@@ -1,53 +1,90 @@
 import React, { useState } from "react";
 import { BsCart2 } from "react-icons/bs";
 import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Header.css";
 
-function Header() {
+function Header({ popularRef, categoryRef, footerRef }) {
   const [openProfile, setOpenProfile] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 🔥 Scroll helper
+  const scrollToSection = (ref) => {
+    ref?.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // 🔥 Handle navbar clicks smartly
+  const handleScrollOrNavigate = (ref) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => scrollToSection(ref), 300);
+    } else {
+      scrollToSection(ref);
+    }
+  };
 
   return (
     <>
       <header className="header">
         <div className="page-container header-inner">
+          {/* LEFT */}
           <div className="header-left">
-            <div className="header-logo">
+            <div
+              className="header-logo"
+              onClick={() => navigate("/")}
+              style={{ cursor: "pointer" }}
+            >
               <img src="/assets/logo4.jpg" alt="EventHub logo" />
             </div>
 
             <nav className="header-nav">
-              <a onClick={() => navigate("/")}>Home</a>
-              <a onClick={() => navigate("/events")}>Event</a>
-              <a onClick={() => navigate("/categories")}>Category</a>
-              <a onClick={() => navigate("/contact")}>Contact</a>
+              <a onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                Home
+              </a>
+
+              <a onClick={() => handleScrollOrNavigate(popularRef)}>
+                Event
+              </a>
+
+              <a onClick={() => handleScrollOrNavigate(categoryRef)}>
+                Category
+              </a>
+
+              <a onClick={() => handleScrollOrNavigate(footerRef)}>
+                Contact
+              </a>
             </nav>
           </div>
 
+          {/* RIGHT */}
           <div className="header-right">
             <button className="header-icon-button" aria-label="search">
-              <span><IoSearchOutline size={22} /></span>
+              <IoSearchOutline size={22} />
             </button>
 
             <button
               className="header-icon-button"
               aria-label="Cart"
-              onClick={() => navigate("/cart")}  
+              onClick={() => navigate("/cart")}
             >
-              <span><BsCart2 size={22} /></span>
+              <BsCart2 size={22} />
             </button>
-
 
             <button
               className="header-icon-button"
               aria-label="User"
               onClick={() => setOpenProfile(true)}
             >
-              <span><IoPersonOutline size={22} /></span>
+              <IoPersonOutline size={22} />
             </button>
 
-            <button className="header-login-button">Login</button>
+            <button
+              className="header-login-button"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
           </div>
         </div>
       </header>
@@ -67,6 +104,7 @@ function Header() {
               <img
                 src="/assets/profile.jpg"
                 className="profile-pic"
+                alt="profile"
                 onClick={() => {
                   setOpenProfile(false);
                   navigate("/profile");
@@ -75,6 +113,7 @@ function Header() {
             </div>
 
             <div className="menu-item">Notifications</div>
+
             <div
               className="menu-item"
               onClick={() => {

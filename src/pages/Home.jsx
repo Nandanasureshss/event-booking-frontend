@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useRef } from "react";
+
 import Hero from "../Components/Hero/Hero.jsx";
 import PopularEvents from "../Components/PopularEvents/PopularEvents.jsx";
 import Steps from "../Components/Steps/Steps.jsx";
 import Categories from "../Components/Categories/Categories.jsx";
-import ProfilePage from "../Components/ProfilePage/ProfilePage.jsx";
 
-function Home() {
+function Home({ popularRef, categoryRef }) {
+ 
+
   return (
     <>
+      {/* HERO */}
       <Hero />
-      <PopularEvents />
+
+      {/* POPULAR EVENTS */}
+      <div ref={popularRef} className="scroll-section">
+        <PopularEvents />
+      </div>
+
+      {/* STEPS */}
       <Steps />
-      <Categories />
+
+      {/* CATEGORIES */}
+      <div ref={categoryRef} className="scroll-section">
+        <Categories />
+      </div>
     </>
   );
 }
