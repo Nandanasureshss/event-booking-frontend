@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import "./Login.css";
-const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 /* -------- Custom Dropdown -------- */
 const LoginMethodDropdown = ({ method, setMethod }) => {
@@ -23,8 +22,8 @@ const LoginMethodDropdown = ({ method, setMethod }) => {
         {method === ""
           ? "Select login option"
           : method === "email"
-            ? "Login with Email"
-            : "Login with Mobile"}
+          ? "Login with Email"
+          : "Login with Mobile"}
         <span className="arrow">▾</span>
       </div>
 
@@ -53,7 +52,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/send-otp`, {
+      await axios.post("http://localhost:5000/api/auth/send-otp", {
         method,
         email,
         phone,
@@ -68,7 +67,7 @@ const Login = () => {
   const handleGoogleLogin = async (credentialResponse) => {
     try {
       const res = await axios.post(
-        `${API_BASE_URL}/api/auth/google-login`,
+        "http://localhost:5000/api/auth/google-login",
         { token: credentialResponse.credential }
       );
 
