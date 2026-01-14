@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./PopularEvents.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function PopularEvents() {
   const [events, setEvents] = useState([]);
@@ -9,13 +10,14 @@ function PopularEvents() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/events/popular")
+      .get(`${API_BASE_URL}/api/events/popular`)
       .then((res) => {
         setEvents(res.data.data);
       })
       .catch((err) => {
         console.error(err);
       });
+
   }, []);
 
   return (
@@ -37,9 +39,10 @@ function PopularEvents() {
             <article key={event._id} className="event-card">
               <div className="event-image-wrapper">
                 <img
-                  src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+                  src={event.mediaFiles?.[0] || "/assets/picture.jpg"}
                   alt={event.eventName}
                 />
+
                 <span className="event-tag">
                   {event.eventCategory || "Popular"}
                 </span>

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotels.css";
-import axios from "axios";
+import axios from "../../api/axios";
+const IMAGE_BASE_URL = import.meta.env.VITE_API_URL;
+console.log("API URL:", import.meta.env.VITE_API_URL);
 
 import {
   FiEdit,
@@ -27,9 +29,7 @@ const AddHotels = () => {
 
   const fetchHotels = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/hotels/all-hotels"
-      );
+      const res = await axios.get("/api/hotels/all-hotels");
 
       if (res.data.success) {
         setHotels(res.data.data);
@@ -124,14 +124,12 @@ const AddHotels = () => {
 
                 <div className="eventLeft">
                   <img
-                    src={
-                      hotel.mediaFiles?.length
-                        ? `http://localhost:5000/uploads/${hotel.mediaFiles[0]}`
-                        : "/assets/picture.jpg"
-                    }
+                    src={hotel.mediaFiles?.[0] || "/assets/picture.jpg"}
                     className="eventImg"
                     alt={hotel.hotelName}
                   />
+
+
 
                   <div className="eventLeftBottom">
                     <button className="bookBtn">Book Now</button>

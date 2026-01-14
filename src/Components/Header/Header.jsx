@@ -9,12 +9,10 @@ function Header({ popularRef, categoryRef, footerRef }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔥 Scroll helper
   const scrollToSection = (ref) => {
     ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // 🔥 Handle navbar clicks smartly
   const handleScrollOrNavigate = (ref) => {
     if (location.pathname !== "/") {
       navigate("/");

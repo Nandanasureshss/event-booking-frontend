@@ -5,7 +5,7 @@ import { IoStar } from "react-icons/io5";
 import { FaWifi, FaSwimmer, FaTimes } from "react-icons/fa";
 import { MdBreakfastDining } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../../api/axios";
 
 const EventDetails = () => {
   const navigate = useNavigate();
@@ -14,27 +14,26 @@ const EventDetails = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [hotels, setHotels] = useState([]); 
+  const [hotels, setHotels] = useState([]);
 
   const [adultCount, setAdultCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
   const [seatType, setSeatType] = useState("");
 
-  const [cart, setCart] = useState({
-    ticket: null,
-    hotels: [],
-  });
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || {
+      ticket: null,
+      hotels: [],
+    }
+  );
+
   const user = JSON.parse(localStorage.getItem("user"));
   const userEmail = user?.email;
 
-  /* ---------------- FETCH EVENT ---------------- */
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/events/${eventId}`
-        );
-
+        const res = await axios.get(`/api/events/${eventId}`);
         const eventData = res.data.data;
         setEvent(eventData);
 
@@ -52,30 +51,20 @@ const EventDetails = () => {
     fetchEvent();
   }, [eventId]);
 
-  /* ---------------- FETCH HOTELS (CORRECT BACKEND MAPPING) ---------------- */
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/hotels/all-hotels"
-        );
+        const res = await axios.get("/api/hotels/all-hotels");
 
         const normalizedHotels = res.data.data.map((hotel) => ({
           id: hotel._id,
-
-          // ✅ SAME AS AddHotels.jsx
           name: hotel.hotelName,
-          image: hotel.mediaFiles?.length
-            ? `http://localhost:5000/uploads/${hotel.mediaFiles[0]}`
-            : "/assets/picture.jpg",
-
+          image: hotel.mediaFiles?.[0] || "/assets/picture.jpg",
           location: hotel.location,
           price: hotel.roomCategories?.[0]?.price || 0,
-
           rating: 4.5,
           reviews: 100,
           distance: hotel.location || "Near event location",
-
           amenities: [
             "Free WiFi",
             "Breakfast Included",
@@ -83,6 +72,7 @@ const EventDetails = () => {
             "Free Cancellation",
           ],
         }));
+
 
         setHotels(normalizedHotels);
       } catch (error) {
@@ -96,7 +86,6 @@ const EventDetails = () => {
   if (loading) return <p style={{ textAlign: "center" }}>Loading event...</p>;
   if (!event) return <p style={{ textAlign: "center" }}>Event not found</p>;
 
-  /* ---------------- PRICE LOGIC ---------------- */
   const selectedCategory = event.seatingCategories.find(
     (cat) => cat.name === seatType
   );
@@ -116,63 +105,60 @@ const EventDetails = () => {
   };
 
   /* ---------------- ADD TICKET ---------------- */
-const addTicketToCart = async () => {
-  if (!userEmail) {
-    alert("Please login to book tickets");
-    navigate("/login");
-    return;
-  }
+  const addTicketToCart = async () => {
+    if (!userEmail) {
+      alert("Please login to book tickets");
+      navigate("/login");
+      return;
+    }
 
-  if (adultCount === 0) {
-    alert("Please select at least 1 adult.");
-    return;
-  }
+    if (adultCount === 0) {
+      alert("Please select at least 1 adult.");
+      return;
+    }
 
-  const totalAmount = totalTickets * ticketPrice;
+    const totalAmount = totalTickets * ticketPrice;
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/api/ticketBooking/create",
-      {
+    try {
+      const res = await axios.post("/api/ticketBooking/create", {
         eventId,
         seatType,
         adults: adultCount,
         children: childCount,
         pricePerTicket: ticketPrice,
         totalAmount,
-        user: {
-          email: userEmail, // ✅ LOGGED-IN USER EMAIL
-        },
+        user: { email: userEmail },
+      });
+
+      if (res.data.ticketType === "online") {
+        alert("Ticket access details have been sent to your email.");
       }
-    );
 
-    if (res.data.ticketType === "online") {
-      alert("Ticket access details have been sent to your email.");
+      if (res.data.ticketType === "pdf") {
+        alert("PDF ticket has been sent to your email.");
+      }
+
+      const updatedCart = {
+        ticket: {
+          seatType,
+          adults: adultCount,
+          children: childCount,
+          totalTickets,
+          pricePerTicket: ticketPrice,
+          total: totalAmount,
+          eventName: event.eventName,
+          image: event.mediaFiles?.[0],
+        },
+        hotels: [],
+      };
+
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.error(error);
+      alert("Ticket booking failed");
     }
-
-    if (res.data.ticketType === "pdf") {
-      alert("PDF ticket has been sent to your email.");
-    }
-
-    setCart({
-      ticket: {
-        seatType,
-        adults: adultCount,
-        children: childCount,
-        totalTickets,
-        pricePerTicket: ticketPrice,
-        total: totalAmount,
-        eventName: event.eventName,
-        image: event.mediaFiles?.[0],
-      },
-      hotels: [],
-    });
-  } catch (error) {
-    console.error(error);
-    alert("Ticket booking failed");
-  }
-};
-
+  };
 
   const addHotelToCart = (hotel) => {
     if (!cart.ticket) {
@@ -190,33 +176,36 @@ const addTicketToCart = async () => {
       return;
     }
 
-    setCart((prev) => ({
-      ...prev,
-      hotels: [...prev.hotels, hotel],
-    }));
-  };
+    const updatedCart = {
+      ...cart,
+      hotels: [...cart.hotels, hotel],
+    };
 
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
 
   const goToCart = () => {
     if (cart.hotels.length !== cart.ticket.totalTickets) {
-      alert(
-        `Please select ${cart.ticket.totalTickets} hotel room(s)`
-      );
+      alert(`Please select ${cart.ticket.totalTickets} hotel room(s)`);
       return;
     }
     navigate("/cart", { state: cart });
   };
+
   const isHotelAdded = (hotelId) => {
     return cart.hotels.some((h) => h.id === hotelId);
   };
+
   return (
     <div className="EventDetails">
-      {/* Banner */}
+
       <div className="EventDetailsBanner">
         <img
-          src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+          src={event.mediaFiles?.[0] || "/assets/picture.jpg"}
           alt={event.eventName}
         />
+
         <h1 className="EventDetailsTitle">{event.eventName}</h1>
       </div>
 
@@ -224,10 +213,13 @@ const addTicketToCart = async () => {
       <div className="EventDetailsSelectorSection">
         <div className="EventDetailsLeftBox">
           <img
-            src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+            src={event.mediaFiles?.[0] || "/assets/picture.jpg"}
             alt={event.eventName}
             className="EventDetailsMiniImage"
           />
+
+
+
         </div>
 
         <div className="EventDetailsRightBox">
@@ -372,7 +364,12 @@ const addTicketToCart = async () => {
           <div className="EventDetailsHotelCard" key={hotel.id}>
             <div className="EventDetailsHotelLeft">
               <span className="EventDetailsTopRated">Top Rated</span>
-              <img src={hotel.image} alt={hotel.name} />
+              <img
+                src={hotel.image}
+                className="eventImg"
+                alt={hotel.name}
+              />
+
             </div>
 
             <div className="EventDetailsHotelRight">
@@ -410,6 +407,7 @@ const addTicketToCart = async () => {
       </div>
     </div>
   );
+
 };
 
 export default EventDetails;

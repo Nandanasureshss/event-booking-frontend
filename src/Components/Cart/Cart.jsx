@@ -2,36 +2,64 @@ import React, { useState } from "react";
 import "./Cart.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import axios from "axios";
+import axios from "../../api/axios";
+const IMAGE_BASE_URL = import.meta.env.VITE_API_URL;
 
 const Cart = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const cart = state || { ticket: null, hotels: [] };
+  const cart =
+    state ||
+    JSON.parse(localStorage.getItem("cart")) || {
+      ticket: null,
+      hotels: [],
+    };
+
 
   const ticket = cart.ticket;
   const hotels = cart.hotels || [];
+  const hotelQty = hotels.length;
 
-  const [ticketQty, setTicketQty] = useState(
-    ticket ? ticket.adults + ticket.children : 0
-  );
 
-  const [hotelQty, setHotelQty] = useState(hotels.length);
+  const ticketQty = ticket ? ticket.adults + ticket.children : 0;
 
-  const ticketTotal = ticket ? ticket.total : 0;
+  const ticketTotal = ticket
+    ? ticketQty * ticket.pricePerTicket
+    : 0;
   const hotelTotal = hotels.reduce((sum, h) => sum + h.price, 0);
+  const updateTicketQty = (delta) => {
+    if (!ticket) return;
+
+    const newAdults = Math.max(ticket.adults + delta, 1);
+
+    const updatedCart = {
+      ...cart,
+      ticket: {
+        ...ticket,
+        adults: newAdults,
+        total: newAdults * ticket.pricePerTicket,
+      },
+    };
+
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    navigate(0); // refresh cart safely
+  };
 
   const subtotal = ticketTotal + hotelTotal;
   const discount = subtotal > 0 ? 10 : 0;
   const finalTotal = subtotal - discount;
 
-  const removeTicket = () => setTicketQty(0);
+  const removeTicket = () => {
+    const updatedCart = { ...cart, ticket: null };
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    navigate(0);
+  };
   const removeHotel = () => setHotelQty(0);
 
   const proceedToPay = async () => {
     try {
-      await axios.post("http://localhost:5000/api/cart/create", {
+      await axios.post("/api/cart/create", {
         userEmail: "nandananavya156@gmail.com",
         ticket,
         hotels,
@@ -61,8 +89,8 @@ const Cart = () => {
               <h3 className="cart-section-title">Tickets</h3>
 
               <div className="cart-card">
-                <img
-                  src={`http://localhost:5000/uploads/${ticket.image}`}
+<img src={ticket.image} 
+
                   alt={ticket.eventName}
                   className="cart-card-img"
                 />
@@ -81,9 +109,7 @@ const Cart = () => {
                   <div className="cart-qty-row">
                     <button
                       className="qty-btn"
-                      onClick={() =>
-                        setTicketQty(ticketQty > 1 ? ticketQty - 1 : 1)
-                      }
+                      onClick={() => updateTicketQty(-1)}
                     >
                       -
                     </button>
@@ -92,7 +118,7 @@ const Cart = () => {
 
                     <button
                       className="qty-btn"
-                      onClick={() => setTicketQty(ticketQty + 1)}
+                      onClick={() => updateTicketQty(1)}
                     >
                       +
                     </button>
@@ -143,8 +169,8 @@ const Cart = () => {
           <div className="summary-items">
             {ticketQty > 0 && ticket && (
               <div className="summary-item">
-                <img
-                  src={`http://localhost:5000/uploads/${ticket.image}`}
+<img src={ticket.image}
+
                   alt="ticket"
                 />
                 <div>

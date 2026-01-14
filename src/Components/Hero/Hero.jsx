@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function Hero() {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -42,7 +43,7 @@ function Hero() {
   useEffect(() => {
     const fetchPopularEvents = async () => {
       try {
-        let url = "http://localhost:5000/api/events/popular?";
+        let url = `${API_BASE_URL}/api/events/popular?`;
         if (selectedLocation) url += `location=${selectedLocation}&`;
         if (selectedDate)
           url += `date=${selectedDate.toISOString().split("T")[0]}`;
@@ -136,7 +137,6 @@ function Hero() {
         </button>
       </div>
 
-      {/* 🎞️ SLIDER */}
       <Swiper
         modules={[Pagination, Autoplay]}
         autoplay={{ delay: 4000 }}
@@ -160,7 +160,7 @@ function Hero() {
           <SwiperSlide key={event._id}>
             <div className="hero-slide">
               <img
-                src={`http://localhost:5000/uploads/${event.mediaFiles?.[0]}`}
+                src={event.mediaFiles?.[0]}
                 className="hero-bg"
                 alt={event.eventName}
               />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AdminEvents.css";
-import axios from "axios";
+import axios from "../../api/axios";
 
 import {
   FiEdit,
@@ -21,19 +21,19 @@ const AdminEvents = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
-  // 🔹 FETCH EVENTS FROM BACKEND
   useEffect(() => {
     fetchEvents();
   }, []);
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/events/all-events"
-      );
+      const res = await axios.get("/api/events/all-events");
+
 
       if (res.data.success) {
         setEvents(res.data.data);
+        console.log("EVENTS FROM API 👉", res.data.data);
+
       }
     } catch (error) {
       console.error("Failed to fetch events:", error);
@@ -127,14 +127,12 @@ const AdminEvents = () => {
                   <span className="eventBadge">LIVE</span>
 
                   <img
-                    src={
-                      ev.mediaFiles?.length
-                        ? `http://localhost:5000/uploads/${ev.mediaFiles[0]}`
-                        : "/assets/picture.jpg"
-                    }
+                    src={ev.mediaFiles?.[0] || "/assets/picture.jpg"}
                     className="eventImg"
                     alt={ev.eventName}
                   />
+
+
 
                   <div className="eventLeftBottom">
                     <button className="bookBtn">Book Now</button>

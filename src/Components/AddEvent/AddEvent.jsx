@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Topbar from "../../pages/Topbar/Topbar";
 import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddEvent.css";
-import axios from "axios";
+import axios from "../../api/axios";
 
 const EVENT_CATEGORIES = [
   "Music",
@@ -28,8 +28,6 @@ function AddEvent() {
     seatingCategories: [],
     images: []
   });
-
-  /* ---------------- CATEGORY HANDLERS ---------------- */
 
   const addNewCategory = () => {
     setFormData({
@@ -59,13 +57,9 @@ function AddEvent() {
     setFormData({ ...formData, seatingCategories: updated });
   };
 
-  /* ---------------- IMAGE HANDLER ---------------- */
-
   const handleImageUpload = (e) => {
     setFormData({ ...formData, images: Array.from(e.target.files) });
   };
-
-  /* ---------------- SUBMIT ---------------- */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,11 +89,12 @@ function AddEvent() {
 
     formData.images.forEach((img) => payload.append("mediaFiles", img));
 
-    const res = await axios.post(
-      "http://localhost:5000/api/events/add-event",
-      payload,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
+   const res = await axios.post(
+  "/api/events/add-event",
+  payload,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
+
 
     if (res.data.success) navigate("/admin/events");
   };
@@ -112,7 +107,6 @@ function AddEvent() {
       <div className="adminEventsContainer">
         <div className="addEventWrapper">
 
-          {/* LEFT SIDE */}
           <div className="addEventLeft">
             <h2>Add New Event</h2>
 
@@ -170,7 +164,6 @@ function AddEvent() {
                 </label>
               </div>
 
-              {/* ✅ CATEGORY TABS */}
               {formData.seatingCategories.length > 0 && (
                 <div className="categoryTabs">
                   {formData.seatingCategories.map((cat, index) => (
@@ -181,17 +174,12 @@ function AddEvent() {
                 </div>
               )}
 
-              <button
-                type="button"
-                className="addCategoryBtn"
-                onClick={addNewCategory}
-              >
+              <button type="button" className="addCategoryBtn" onClick={addNewCategory}>
                 + Add Category
               </button>
             </form>
           </div>
 
-          {/* RIGHT SIDE */}
           <div className="addEventRight">
             <h2>Price based on Seating Category</h2>
 
@@ -200,28 +188,13 @@ function AddEvent() {
                 <h4>{cat.name}</h4>
 
                 <label>Category Price</label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    handleCategoryChange(index, "price", e.target.value)
-                  }
-                />
+                <input type="number" onChange={(e) => handleCategoryChange(index, "price", e.target.value)} />
 
                 <label>Purchase Price</label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    handleCategoryChange(index, "purchasePrice", e.target.value)
-                  }
-                />
+                <input type="number" onChange={(e) => handleCategoryChange(index, "purchasePrice", e.target.value)} />
 
                 <label>Tickets Available</label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    handleCategoryChange(index, "tickets", e.target.value)
-                  }
-                />
+                <input type="number" onChange={(e) => handleCategoryChange(index, "tickets", e.target.value)} />
 
                 {formData.ticketType === "pdf" && (
                   <>
@@ -229,9 +202,7 @@ function AddEvent() {
                     <input
                       type="file"
                       accept="application/pdf"
-                      onChange={(e) =>
-                        handlePdfUpload(index, e.target.files[0])
-                      }
+                      onChange={(e) => handlePdfUpload(index, e.target.files[0])}
                     />
                   </>
                 )}

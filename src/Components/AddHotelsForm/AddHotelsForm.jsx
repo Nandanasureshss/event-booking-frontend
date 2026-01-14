@@ -4,7 +4,7 @@ import AdminSidebar from "../../pages/AdminSidebar/AdminSidebar";
 import "./AddHotelsForm.css";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../api/axios";
 
 function AddHotelsForm() {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ function AddHotelsForm() {
     setHotel({ ...hotel, features: updated });
   };
 
-  // ✅ BACKEND SUBMIT
   const handleSubmit = async () => {
     try {
       const roomCategories = hotel.features.map((f) => ({
@@ -62,11 +61,11 @@ function AddHotelsForm() {
         });
       });
 
-      const res = await axios.post(
-        "http://localhost:5000/api/hotels/add-hotel",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+     const res = await axios.post(
+  "/api/hotels/add-hotel",
+  formData,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
 
       if (res.data.success) {
         navigate("/admin/hotels");

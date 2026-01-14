@@ -5,22 +5,19 @@ import { CiClock1 } from "react-icons/ci";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import axios from "../../api/axios";
+const IMAGE_BASE_URL = import.meta.env.VITE_API_URL;
 const AllEvents = () => {
   const navigate = useNavigate();
   const [eventsData, setEventsData] = useState([]);
   const [wishlistIds, setWishlistIds] = useState([]);
 
-const user = JSON.parse(localStorage.getItem("user"));
-const userEmail = user?.email;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user?.email;
 
-  /* ---------------- FETCH EVENTS ---------------- */
   useEffect(() => {
     const fetchEvents = async () => {
-      const res = await axios.get(
-        "http://localhost:5000/api/events/all-events"
-      );
+      const res = await axios.get("/api/events/all-events");
       if (res.data.success) {
         setEventsData(res.data.data);
       }
@@ -28,14 +25,12 @@ const userEmail = user?.email;
     fetchEvents();
   }, []);
 
-  /* ---------------- FETCH USER WISHLIST ---------------- */
   useEffect(() => {
     if (!userEmail) return;
 
     const fetchWishlist = async () => {
-      const res = await axios.get(
-        `http://localhost:5000/api/wishlist/${userEmail}`
-      );
+      const res = await axios.get(`/api/wishlist/${userEmail}`);
+
 
       const ids = res.data.data.map((item) => item.eventId._id);
       setWishlistIds(ids);
@@ -51,13 +46,11 @@ const userEmail = user?.email;
       return;
     }
 
-    const res = await axios.post(
-      "http://localhost:5000/api/wishlist/toggle",
-      {
-        userEmail,
-        eventId,
-      }
-    );
+    const res = await axios.post("/api/wishlist/toggle", {
+      userEmail,
+      eventId,
+    })
+
 
     if (res.data.wishlisted) {
       setWishlistIds((prev) => [...prev, eventId]);
@@ -77,11 +70,12 @@ const userEmail = user?.email;
               <img
                 src={
                   event.mediaFiles?.length
-                    ? `http://localhost:5000/uploads/${event.mediaFiles[0]}`
+                    ? `${IMAGE_BASE_URL}/uploads/${event.mediaFiles[0]}`
                     : "/assets/picture1.jpg"
                 }
                 alt={event.eventName}
               />
+
 
               <span className="tag">TRENDING</span>
 
