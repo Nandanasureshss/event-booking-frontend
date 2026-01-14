@@ -68,13 +68,10 @@ const AllEvents = () => {
           <div className="event-card" key={event._id}>
             <div className="card-image">
               <img
-                src={
-                  event.mediaFiles?.length
-                    ? `${IMAGE_BASE_URL}/uploads/${event.mediaFiles[0]}`
-                    : "/assets/picture1.jpg"
-                }
+                src={event.mediaFiles?.[0] || "/assets/picture1.jpg"}
                 alt={event.eventName}
               />
+
 
 
               <span className="tag">TRENDING</span>
