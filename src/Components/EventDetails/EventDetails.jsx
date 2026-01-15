@@ -138,19 +138,25 @@ const EventDetails = () => {
         alert("PDF ticket has been sent to your email.");
       }
 
-      const updatedCart = {
-        ticket: {
-          seatType,
-          adults: adultCount,
-          children: childCount,
-          totalTickets,
-          pricePerTicket: ticketPrice,
-          total: totalAmount,
-          eventName: event.eventName,
-          image: event.mediaFiles?.[0],
-        },
-        hotels: [],
-      };
+      const existingCart =
+  JSON.parse(localStorage.getItem("cart")) || {
+    ticket: null,
+    hotels: [],
+  };
+
+const updatedCart = {
+  ...existingCart,
+  ticket: {
+    seatType,
+    adults: adultCount,
+    children: childCount,
+    totalTickets,
+    pricePerTicket: ticketPrice,
+    total: totalAmount,
+    eventName: event.eventName,
+    image: event.mediaFiles?.[0],
+  },
+};
 
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -186,12 +192,20 @@ const EventDetails = () => {
   };
 
   const goToCart = () => {
-    if (cart.hotels.length !== cart.ticket.totalTickets) {
-      alert(`Please select ${cart.ticket.totalTickets} hotel room(s)`);
-      return;
-    }
-    navigate("/cart", { state: cart });
-  };
+  const storedCart = JSON.parse(localStorage.getItem("cart"));
+
+  if (!storedCart || !storedCart.ticket) {
+    alert("Please add a ticket first");
+    return;
+  }
+
+  if (storedCart.hotels.length !== storedCart.ticket.totalTickets) {
+    alert(`Please select ${storedCart.ticket.totalTickets} hotel room(s)`);
+    return;
+  }
+
+  navigate("/cart");
+};
 
   const isHotelAdded = (hotelId) => {
     return cart.hotels.some((h) => h.id === hotelId);

@@ -381,3 +381,112 @@
     font-size: 24px;
   }
 }
+/* ================= MOBILE RESPONSIVE OVERRIDES ================= */
+
+/* Tablets & below */
+@media (max-width: 768px) {
+
+  /* Banner */
+  .EventDetailsBanner {
+    height: 220px; /* keep same look, just smaller */
+  }
+
+  .EventDetailsTitle {
+    font-size: 30px;
+    left: 16px;
+    bottom: 16px;
+  }
+
+  /* Selector section */
+  .EventDetailsSelectorSection {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .EventDetailsMiniImage {
+    width: 100%;
+    height: 240px;
+  }
+
+  /* Guest section */
+  .EventDetailsGuestWrapper {
+    flex-direction: column;
+  }
+
+  .GuestTotalBox {
+    width: 100%;
+    padding-top: 20px;
+    padding-right: 0;
+    text-align: left; /* keeps design feel */
+  }
+
+  /* Hotel cards — KEEP DESIGN, JUST STACK */
+  .EventDetailsHotelCard {
+    margin-left: 0;        /* override desktop offset */
+    padding-left: 20px;   /* maintain spacing */
+    flex-direction: column;
+  }
+
+  .EventDetailsHotelLeft {
+    position: relative;   /* remove negative offset only on mobile */
+    left: 0;
+    top: 0;
+    margin-bottom: 12px;
+  }
+
+  .EventDetailsHotelLeft img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+  }
+
+  .EventDetailsPricePerNight {
+    margin-left: 0;
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+
+  .EventDetailsTitle {
+    font-size: 24px;
+  }
+
+  .EventDetailsMiniImage {
+    height: 200px;
+  }
+
+  .EventDetailsPricePerNight {
+    font-size: 20px;
+  }
+}
+/* ===== FIX PRICE + PER PERSON OVERFLOW (MOBILE ONLY) ===== */
+
+@media (max-width: 768px) {
+  .EventDetailsPrice {
+    display: flex;
+    flex-direction: column;   /* stack price & per person */
+    align-items: flex-start;  /* keep same design feel */
+    gap: 4px;
+  }
+
+  .EventDetailsPricePr {
+    padding-left: 0;          /* remove desktop spacing */
+  }
+
+  .EventDetailsPricePerNight {
+    margin-left: 0;
+    width: 100%;
+    text-align: left;
+    white-space: normal;      /* allow wrapping */
+  }
+}
+
+@media (max-width: 480px) {
+  .EventDetailsPrice {
+    align-items: center;      /* center only on very small screens */
+    text-align: center;
+  }
+}

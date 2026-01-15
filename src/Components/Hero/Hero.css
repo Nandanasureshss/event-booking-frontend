@@ -1,7 +1,8 @@
 .hero {
-  position: relative; 
+  position: relative;
 }
 
+/* ---------------- SWIPER ---------------- */
 .hero-swiper {
   width: 100%;
   height: 95vh;
@@ -33,80 +34,92 @@
   margin-top: 6rem;
 }
 
+/* ---------------- FILTER BAR ---------------- */
 .hero-top-filter {
   position: absolute;
-  top: 40px;
+  top: 90px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
 
-  display: flex;
-  align-items: center;
-  gap: 2rem;
+  width: 90%;
+  max-width: 900px;
 
-  padding: 1rem 2rem;
-  background: rgba(25, 32, 48, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 16px;
+  background: rgba(15, 15, 25, 0.85);
+  border-radius: 14px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .filter-item {
-  position: relative;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
+  flex: 1;
+  min-width: 140px;
 
-  white-space: nowrap;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 10px;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 14px;
+  position: relative;
 }
 
+.filter-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
 
 .arrow {
-  font-size: 1rem;
+  margin-left: 8px;
+  font-size: 0.9rem;
   opacity: 0.8;
-  transform: translateY(6px);
 }
 
-.divider {
-  width: 1px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.25);
-}
+/* ---------------- DROPDOWN ---------------- */
 .dropdown-menu {
   position: absolute;
-  top: 48px;
+  top: 110%;
   left: 0;
-  width: 180px;
-  background: rgba(25, 32, 48, 0.85);
-  border-radius: 12px;
-  padding: 0.6rem 0;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  z-index: 50;
+  width: 100%;
+  background: #121212;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 20;
 }
 
 .dropdown-menu div {
-  padding: 0.65rem 1.2rem;
-  color: white;
+  padding: 10px 14px;
   cursor: pointer;
+  color: white;
 }
 
 .dropdown-menu div:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #1f1f1f;
 }
 
+/* ---------------- CALENDAR ---------------- */
 .calendar-popup {
   position: absolute;
-  top: 50px;
+  top: 110%;
   left: 0;
-  z-index: 100;
+  z-index: 20;
 
-  background: rgba(25, 32, 48, 0.85);
+  background: rgba(25, 32, 48, 0.9);
   padding: 1rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  border-radius: 14px;
 }
 
 .react-calendar {
@@ -120,7 +133,6 @@
 .react-calendar__navigation button {
   color: #fff !important;
   background: transparent !important;
-  font-size: 0.9rem;
   border-radius: 8px;
 }
 
@@ -128,16 +140,10 @@
   background: rgba(255, 255, 255, 0.12) !important;
 }
 
-.react-calendar__month-view__weekdays {
-  color: #ddd;
-  font-size: 0.75rem;
-}
-
 .react-calendar__tile {
   background: transparent !important;
   color: #fff !important;
-  padding: 8px 0 !important;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .react-calendar__tile:hover {
@@ -146,14 +152,25 @@
 
 .react-calendar__tile--active {
   background: #4aa5f4 !important;
-  color: white !important;
 }
 
-.react-calendar__tile--now {
-  background: rgba(255, 255, 255, 0.18) !important;
-  color: white !important;
+/* ---------------- SEARCH BUTTON ---------------- */
+.search-btn {
+  width: 100%;
 }
 
+.hero-primary {
+  background: linear-gradient(90deg, #4aa5f4, #c863f6);
+  padding: 0.65rem 1.6rem;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+/* ---------------- HERO CONTENT ---------------- */
 .hero-content h1 {
   font-size: 2.4rem;
   max-width: 600px;
@@ -166,19 +183,7 @@
   color: #eee;
 }
 
-.hero-primary {
-  background: linear-gradient(90deg, #4aa5f4, #c863f6);
-  padding: 0.6rem 1.6rem;  
-  border: none;
-  color: white;
-  cursor: pointer;
-
-  font-size: 1.15rem;      
-  font-weight: 600;      
-}
-
-
-/* Pagination */
+/* ---------------- PAGINATION ---------------- */
 .swiper-pagination-bullet {
   width: 9px;
   height: 9px;
@@ -189,21 +194,9 @@
 .swiper-pagination-bullet-active {
   opacity: 1;
 }
+
+/* ---------------- TABLET ---------------- */
 @media (max-width: 1024px) {
-  .hero-top-filter {
-    gap: 1.5rem;
-    padding: 0.8rem 1.4rem;
-  }
-
-  .filter-item {
-    font-size: 1.05rem;
-  }
-
-  .hero-primary {
-    font-size: 1.05rem;
-    padding: 0.55rem 1.4rem;
-  }
-
   .hero-content h1 {
     font-size: 2rem;
   }
@@ -212,28 +205,21 @@
     font-size: 0.95rem;
   }
 }
+
+/* ---------------- MOBILE ---------------- */
 @media (max-width: 768px) {
   .hero-top-filter {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-
-    width: calc(100% - 2rem);
-    padding: 0.9rem 1rem;
+    top: auto;
+    bottom: 20px;
   }
 
-  .divider {
-    display: none;
+  .filter-group {
+    flex-direction: column;
   }
 
   .filter-item {
-    font-size: 1rem;
-  }
-
-  .hero-primary {
     width: 100%;
-    text-align: center;
-    font-size: 1.05rem;
+    font-size: 15px;
   }
 
   .calendar-popup,
@@ -256,22 +242,16 @@
     font-size: 0.9rem;
     max-width: 100%;
   }
-}
-@media (max-width: 480px) {
-  .hero-top-filter {
-    border-radius: 14px;
-    padding: 0.8rem;
-  }
-
-  .filter-item {
-    font-size: 0.95rem;
-  }
 
   .hero-primary {
-    font-size: 1rem;
-    padding: 0.55rem 1.2rem;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
   }
+}
 
+/* ---------------- SMALL MOBILE ---------------- */
+@media (max-width: 480px) {
   .hero-content h1 {
     font-size: 1.4rem;
   }

@@ -65,77 +65,73 @@ function Hero() {
   return (
     <section className="hero">
 
-      {/* 🔒 FILTER BAR */}
-      <div className="hero-top-filter">
+     <div className="hero-top-filter">
 
-        {/* LOCATION */}
-        <div
-          className="filter-item"
-          ref={locationRef}
-          onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}
-        >
-          {selectedLocation || "Location"}
-          <span className="arrow"><IoIosArrowDown /></span>
+  <div className="filter-group">
+    {/* LOCATION */}
+    <div
+      className="filter-item"
+      ref={locationRef}
+      onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}
+    >
+      {selectedLocation || "Location"}
+      <span className="arrow"><IoIosArrowDown /></span>
 
-          {openDropdown === 1 && (
-            <div className="dropdown-menu">
-              {["Dubai", "United Kingdom", "Oman", "Paris", "London", "New York"].map(
-                (loc) => (
-                  <div
-                    key={loc}
-                    onClick={() => {
-                      setSelectedLocation(loc);
-                      setOpenDropdown(null);
-                    }}
-                  >
-                    {loc}
-                  </div>
-                )
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="divider"></div>
-
-        {/* DATE */}
-        <div
-          className="filter-item"
-          ref={calendarRef}
-          onClick={() => setShowCalendar(!showCalendar)}
-        >
-          {selectedDate
-            ? selectedDate.toDateString()
-            : "Select Date"}
-          <span className="arrow"><IoIosArrowDown /></span>
-
-          {showCalendar && (
-            <div className="calendar-popup">
-              <Calendar
-                onChange={(date) => {
-                  setSelectedDate(date);
-                  setShowCalendar(false);
+      {openDropdown === 1 && (
+        <div className="dropdown-menu">
+          {["Dubai", "United Kingdom", "Oman", "Paris", "London", "New York"].map(
+            (loc) => (
+              <div
+                key={loc}
+                onClick={() => {
+                  setSelectedLocation(loc);
+                  setOpenDropdown(null);
                 }}
-                value={selectedDate}
-              />
-            </div>
+              >
+                {loc}
+              </div>
+            )
           )}
         </div>
+      )}
+    </div>
 
-        <div className="divider"></div>
+    {/* DATE */}
+    <div
+      className="filter-item"
+      ref={calendarRef}
+      onClick={() => setShowCalendar(!showCalendar)}
+    >
+      {selectedDate ? selectedDate.toDateString() : "Select Date"}
+      <span className="arrow"><IoIosArrowDown /></span>
 
-        {/* EVENT */}
-        <div className="filter-item">
-          Select Event <span className="arrow"><IoIosArrowDown /></span>
+      {showCalendar && (
+        <div className="calendar-popup">
+          <Calendar
+            onChange={(date) => {
+              setSelectedDate(date);
+              setShowCalendar(false);
+            }}
+            value={selectedDate}
+          />
         </div>
+      )}
+    </div>
 
-        <button
-          className="hero-primary"
-          onClick={() => navigate("/allevents")}
-        >
-          Search
-        </button>
-      </div>
+    {/* EVENT */}
+    <div className="filter-item">
+      Select Event <span className="arrow"><IoIosArrowDown /></span>
+    </div>
+  </div>
+
+  <button
+    className="hero-primary search-btn"
+    onClick={() => navigate("/allevents")}
+  >
+    Search
+  </button>
+</div>
+
 
       <Swiper
         modules={[Pagination, Autoplay]}
