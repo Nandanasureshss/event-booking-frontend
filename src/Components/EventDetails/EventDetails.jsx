@@ -30,16 +30,21 @@ const EventDetails = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const userEmail = user?.email;
 useEffect(() => {
-  // Reset cart when opening a new event
-  if (!event) return; 
+  if (!event) return;
+
   const storedCart = JSON.parse(localStorage.getItem("cart"));
 
-  if (storedCart?.ticket?.eventName !== event?.eventName) {
+  // ✅ Reset ONLY if cart has ticket AND event is different
+  if (
+    storedCart?.ticket &&
+    storedCart.ticket.eventName !== event.eventName
+  ) {
     const resetCart = { ticket: null, hotels: [] };
     localStorage.setItem("cart", JSON.stringify(resetCart));
     setCart(resetCart);
   }
 }, [event]);
+
 
   useEffect(() => {
     const fetchEvent = async () => {
