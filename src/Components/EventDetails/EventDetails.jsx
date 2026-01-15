@@ -120,67 +120,58 @@ useEffect(() => {
     "Free Cancellation": <FaTimes />,
   };
 
-  /* ---------------- ADD TICKET ---------------- */
-  const addTicketToCart = async () => {
-    if (!userEmail) {
-      alert("Please login to book tickets");
-      navigate("/login");
-      return;
-    }
+ const addTicketToCart = async () => {
+  if (!userEmail) {
+    alert("Please login to book tickets");
+    navigate("/login");
+    return;
+  }
 
-    if (adultCount === 0) {
-      alert("Please select at least 1 adult.");
-      return;
-    }
+  if (adultCount === 0) {
+    alert("Please select at least 1 adult.");
+    return;
+  }
 
-    const totalAmount = totalTickets * ticketPrice;
+  const totalAmount = totalTickets * ticketPrice;
 
-    try {
-      const res = await axios.post("/api/ticketBooking/create", {
-        eventId,
-        seatType,
-        adults: adultCount,
-        children: childCount,
-        pricePerTicket: ticketPrice,
-        totalAmount,
-        user: { email: userEmail },
-      });
-
-      if (res.data.ticketType === "online") {
-        alert("Ticket access details have been sent to your email.");
-      }
-
-      if (res.data.ticketType === "pdf") {
-        alert("PDF ticket has been sent to your email.");
-      }
-
-      const existingCart =
-  JSON.parse(localStorage.getItem("cart")) || {
-    ticket: null,
+  // ✅ 1. Update cart immediately (NO LAG)
+  const updatedCart = {
+    ticket: {
+      seatType,
+      adults: adultCount,
+      children: childCount,
+      totalTickets,
+      pricePerTicket: ticketPrice,
+      total: totalAmount,
+      eventName: event.eventName,
+      image: event.mediaFiles?.[0],
+    },
     hotels: [],
   };
 
-const updatedCart = {
-  ...existingCart,
-  ticket: {
-    seatType,
-    adults: adultCount,
-    children: childCount,
-    totalTickets,
-    pricePerTicket: ticketPrice,
-    total: totalAmount,
-    eventName: event.eventName,
-    image: event.mediaFiles?.[0],
-  },
+  setCart(updatedCart);
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+  // ✅ 2. Show instant alert
+  alert("Ticket added successfully. Details will be sent to your email.");
+
+  // ✅ 3. Call backend AFTER UI update
+  try {
+    await axios.post("/api/ticketBooking/create", {
+      eventId,
+      seatType,
+      adults: adultCount,
+      children: childCount,
+      pricePerTicket: ticketPrice,
+      totalAmount,
+      user: { email: userEmail },
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Ticket created locally, but email delivery failed.");
+  }
 };
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } catch (error) {
-      console.error(error);
-      alert("Ticket booking failed");
-    }
-  };
 
   const addHotelToCart = (hotel) => {
     if (!cart.ticket) {
