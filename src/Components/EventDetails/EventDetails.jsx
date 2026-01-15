@@ -29,6 +29,17 @@ const EventDetails = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userEmail = user?.email;
+useEffect(() => {
+  // Reset cart when opening a new event
+  if (!event) return; 
+  const storedCart = JSON.parse(localStorage.getItem("cart"));
+
+  if (storedCart?.ticket?.eventName !== event?.eventName) {
+    const resetCart = { ticket: null, hotels: [] };
+    localStorage.setItem("cart", JSON.stringify(resetCart));
+    setCart(resetCart);
+  }
+}, [event]);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -191,7 +202,7 @@ const updatedCart = {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const goToCart = () => {
+ const goToCart = () => {
   const storedCart = JSON.parse(localStorage.getItem("cart"));
 
   if (!storedCart || !storedCart.ticket) {
@@ -199,13 +210,9 @@ const updatedCart = {
     return;
   }
 
-  if (storedCart.hotels.length !== storedCart.ticket.totalTickets) {
-    alert(`Please select ${storedCart.ticket.totalTickets} hotel room(s)`);
-    return;
-  }
-
   navigate("/cart");
 };
+
 
   const isHotelAdded = (hotelId) => {
     return cart.hotels.some((h) => h.id === hotelId);

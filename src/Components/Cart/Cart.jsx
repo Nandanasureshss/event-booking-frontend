@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -14,6 +14,12 @@ const Cart = () => {
     };
 
   const [cart, setCart] = useState(getCart());
+useEffect(() => {
+  const storedCart = JSON.parse(localStorage.getItem("cart"));
+  if (storedCart) {
+    setCart(storedCart);
+  }
+}, []);
 
   const ticket = cart.ticket;
   const hotels = cart.hotels;
