@@ -3,6 +3,8 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Login.css";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const VerifyOtp = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -27,7 +29,7 @@ const VerifyOtp = () => {
           : { method, phone, otp };
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+        `${API_BASE_URL}/api/auth/verify-otp`,
         payload
       );
 
