@@ -1,3 +1,10 @@
+.hero,
+.hero-top-filter,
+.filter-group {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .hero {
   position: relative;
 }
@@ -50,7 +57,7 @@
   gap: 12px;
 
   padding: 16px;
-  background: rgba(15, 15, 25, 0.75);
+background: rgba(15, 17, 28, 0.85); 
   border-radius: 16px;
 }
 
@@ -63,7 +70,7 @@
 .filter-item {
   flex: 1;
   min-width: 140px;
-
+height: 42px;  
   padding: 12px 14px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
@@ -76,6 +83,12 @@
 
   font-size: 14px;
   position: relative;
+}
+.filter-item .arrow {
+  margin-left: 14px;
+  font-size: 0.8rem;
+  opacity: 0.6;
+  flex-shrink: 0;                 /* 🔥 prevents text squeeze */
 }
 
 .filter-item:hover {
@@ -172,7 +185,7 @@
   height: 36px;                 /* same as filter height */
   padding: 0 18px;              /* compact width */
 
-  border-radius: 8px;
+border-radius: 14px; 
   border: none;
 
   background: linear-gradient(90deg, #6f8cff, #c56bfa);
@@ -202,7 +215,6 @@
   }
 }
 
-/* ---------------- MOBILE (SINGLE CLEAN VERSION) ---------------- */
 @media (max-width: 768px) {
 
   .hero-swiper {
@@ -210,23 +222,48 @@
   }
 
   .hero-top-filter {
-    bottom: 16px;
-    top: auto;
+  top: 80px;              /* always top */
+  bottom: auto;           /* 🔥 force reset */
+  left: 50%;
+  transform: translateX(-50%);
+
+
+    width: calc(100% - 24px);
     padding: 14px;
     border-radius: 16px;
     background: rgba(10, 12, 20, 0.92);
     box-shadow: 0 12px 30px rgba(0,0,0,0.45);
   }
 
+  /* ✅ TRUE HORIZONTAL FILTERS */
   .filter-group {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
     gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .filter-group::-webkit-scrollbar {
+    display: none; /* Chrome */
   }
 
   .filter-item {
-    width: 100%;
+    flex: 0 0 auto;
+    min-width: 140px;
     height: 48px;
-    font-size: 15px;
+    font-size: 14px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .search-btn {
+    flex: 0 0 auto;
+    height: 48px;
+    padding: 0 18px;
+    font-size: 14px;
+    font-weight: 600;
     border-radius: 12px;
   }
 
@@ -237,14 +274,8 @@
     width: 92%;
   }
 
-  .hero-primary {
-    width: 100%;
-    height: 52px;
-    font-size: 1rem;
-  }
-
   .hero-inner {
-    margin-top: 5rem;
+margin-top: 6.5rem;
     padding: 0 16px;
     text-align: center;
   }
@@ -258,13 +289,71 @@
   }
 }
 
-/* ---------------- SMALL MOBILE ---------------- */
+/* ---------------- SMALL PHONES: 3 FILTERS PER ROW ---------------- */
 @media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: 1.4rem;
+
+  .filter-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;                              
+    overflow: visible;
   }
 
+  .filter-item {
+  height: 46px;
+  padding: 0 18px;                 
+  font-size: 14px;
+  font-weight: 500;
+
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  letter-spacing: 0.2px;
+}
+
+
+  /* SEARCH BUTTON FULL ROW */
+  .search-btn {
+    grid-column: span 3; 
+    height: 44px;
+    font-size: 14px;
+     margin-top: 10px;  
+  }
+}
+/* ---------------- FORCE SINGLE ROW FILTERS ON ALL PHONES ---------------- */
+@media (max-width: 480px) {
+  .filter-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+  }
+
+  .filter-item {
+    flex: 0 0 auto;
+    min-width: 140px;
+  }
+
+  .search-btn {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+}
+@media (max-width: 768px) {
   .hero-content p {
-    font-size: 0.85rem;
+    text-align: center;
+    max-width: 320px;   
+    margin: 8px auto 0;
+  }
+}
+/* ---------------- MOBILE: PUSH CTA BUTTON DOWN ---------------- */
+@media (max-width: 768px) {
+  .hero-primary {
+    margin-top: 18px;   
   }
 }

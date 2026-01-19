@@ -46,26 +46,30 @@ useEffect(() => {
 }, [event]);
 
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const res = await axios.get(`/api/events/${eventId}`);
-        const eventData = res.data.data;
-        setEvent(eventData);
+ useEffect(() => {
+  const fetchEvent = async () => {
+    try {
+      const res = await axios.get(`/api/events/${eventId}`);
+      const eventData = res.data.data;
 
-        if (eventData.seatingCategories?.length > 0) {
-          setSeatType(eventData.seatingCategories[0].name);
-        }
+      console.log("EVENT DATA:", eventData);
+      console.log("SEATING CATEGORIES:", eventData.seatingCategories);
 
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
+      setEvent(eventData);
+
+      if (eventData.seatingCategories?.length > 0) {
+        setSeatType(eventData.seatingCategories[0].name);
       }
-    };
 
-    fetchEvent();
-  }, [eventId]);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  fetchEvent();
+}, [eventId]);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -158,14 +162,15 @@ useEffect(() => {
   // ✅ 3. Call backend AFTER UI update
   try {
     await axios.post("/api/ticketBooking/create", {
-      eventId,
-      seatType,
-      adults: adultCount,
-      children: childCount,
-      pricePerTicket: ticketPrice,
-      totalAmount,
-      user: { email: userEmail },
-    });
+  eventId,
+  seatType,
+  adults: adultCount,
+  children: childCount,
+  pricePerTicket: ticketPrice,
+  totalAmount,
+  userEmail,
+});
+
   } catch (error) {
     console.error(error);
     alert("Ticket created locally, but email delivery failed.");

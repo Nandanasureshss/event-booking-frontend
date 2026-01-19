@@ -26,7 +26,8 @@ function AddEvent() {
     isPopular: false,
     ticketType: "online",
     seatingCategories: [],
-    images: []
+    images: [],
+    ticketPdf: null // ✅ ADDED
   });
 
   const addNewCategory = () => {
@@ -38,8 +39,7 @@ function AddEvent() {
           name: `Category ${formData.seatingCategories.length + 1}`,
           price: "",
           purchasePrice: "",
-          tickets: "",
-          ticketPdf: null
+          tickets: ""
         }
       ]
     });
@@ -48,12 +48,6 @@ function AddEvent() {
   const handleCategoryChange = (index, field, value) => {
     const updated = [...formData.seatingCategories];
     updated[index][field] = value;
-    setFormData({ ...formData, seatingCategories: updated });
-  };
-
-  const handlePdfUpload = (index, file) => {
-    const updated = [...formData.seatingCategories];
-    updated[index].ticketPdf = file;
     setFormData({ ...formData, seatingCategories: updated });
   };
 
@@ -76,25 +70,21 @@ function AddEvent() {
 
     payload.append(
       "seatingCategories",
-      JSON.stringify(
-        formData.seatingCategories.map(({ ticketPdf, ...rest }) => rest)
-      )
+      JSON.stringify(formData.seatingCategories)
     );
 
-    formData.seatingCategories.forEach((cat, index) => {
-      if (cat.ticketPdf) {
-        payload.append(`ticketPdf_${index}`, cat.ticketPdf);
-      }
-    });
+    // ✅ SEND SINGLE PDF (ONLY IF PDF TICKET)
+    if (formData.ticketType === "pdf" && formData.ticketPdf) {
+      payload.append("ticketPdf", formData.ticketPdf);
+    }
 
     formData.images.forEach((img) => payload.append("mediaFiles", img));
 
-   const res = await axios.post(
-  "/api/events/add-event",
-  payload,
-  { headers: { "Content-Type": "multipart/form-data" } }
-);
-
+    const res = await axios.post(
+      "/api/events/add-event",
+      payload,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
 
     if (res.data.success) navigate("/admin/events");
   };
@@ -195,19 +185,22 @@ function AddEvent() {
 
                 <label>Tickets Available</label>
                 <input type="number" onChange={(e) => handleCategoryChange(index, "tickets", e.target.value)} />
-
-                {formData.ticketType === "pdf" && (
-                  <>
-                    <label>Upload {cat.name} Ticket PDF</label>
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      onChange={(e) => handlePdfUpload(index, e.target.files[0])}
-                    />
-                  </>
-                )}
               </div>
             ))}
+
+            {/* ✅ SINGLE PDF UPLOAD */}
+            {formData.ticketType === "pdf" && (
+              <>
+                <label>Upload Event Ticket PDF</label>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) =>
+                    setFormData({ ...formData, ticketPdf: e.target.files[0] })
+                  }
+                />
+              </>
+            )}
 
             <label>Media Upload</label>
             <input type="file" multiple onChange={handleImageUpload} />
