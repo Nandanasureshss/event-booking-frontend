@@ -107,8 +107,7 @@ height: 42px;
   top: 110%;
   left: 0;
   width: 100%;
-  background: #121212;
-  border-radius: 10px;
+background: rgba(20, 24, 40, 0.75);  border-radius: 10px;
   overflow: hidden;
   z-index: 20;
 }
@@ -241,7 +240,6 @@ border-radius: 14px;
     flex-direction: row;
     gap: 10px;
     flex-wrap: nowrap;
-    overflow-x: auto;
     scrollbar-width: none; /* Firefox */
   }
 

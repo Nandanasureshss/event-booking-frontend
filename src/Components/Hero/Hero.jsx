@@ -133,13 +133,14 @@ function Hero() {
       </div>
 
       {/* ---------------- SWIPER ---------------- */}
-      <Swiper
-        modules={[Pagination, Autoplay]}
-        autoplay={{ delay: 4000 }}
-        loop
-        pagination={{ clickable: true }}
-        className="hero-swiper"
-      >
+     <Swiper
+  modules={[Pagination, Autoplay]}
+  autoplay={{ delay: 4000 }}
+  loop={popularEvents.length > 1}
+  pagination={{ clickable: true }}
+  className="hero-swiper"
+>
+
         {popularEvents.length === 0 && (
           <SwiperSlide>
             <div className="hero-slide">
@@ -172,7 +173,7 @@ function Hero() {
 
                   <button
                     className="hero-primary"
-                    onClick={() => navigate(`/event/${event._id}`)}
+                    onClick={() => navigate(`/event-details/${event._id}`)}
                   >
                     BOOK NOW
                   </button>
