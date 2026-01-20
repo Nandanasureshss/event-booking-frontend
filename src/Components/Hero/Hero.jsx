@@ -17,6 +17,7 @@ function Hero() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [popularEvents, setPopularEvents] = useState([]);
+const [mobileSheet, setMobileSheet] = useState(null); 
 
   const locationRef = useRef(null);
   const calendarRef = useRef(null);
@@ -66,55 +67,71 @@ function Hero() {
       <div className="hero-top-filter">
         <div className="filter-group">
 
-          {/* LOCATION */}
-          <div
-            className="filter-item"
-            ref={locationRef}
-            onClick={() => setOpenDropdown(openDropdown === 1 ? null : 1)}
-          >
-            {selectedLocation || "Location"}
-            <span className="arrow"><IoIosArrowDown /></span>
+   <div
+  className="filter-item"
+  ref={locationRef}
+  onClick={() => {
+    if (window.innerWidth <= 480) {
+      setMobileSheet("location");
+    } else {
+      setOpenDropdown(openDropdown === 1 ? null : 1);
+    }
+  }}
+>
+  {selectedLocation || "Location"}
+  <span className="arrow"><IoIosArrowDown /></span>
 
-            {openDropdown === 1 && (
-              <div className="dropdown-menu">
-                {["Dubai", "United Kingdom", "Oman", "Paris", "London", "New York"].map(
-                  (loc) => (
-                    <div
-                      key={loc}
-                      onClick={() => {
-                        setSelectedLocation(loc);
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      {loc}
-                    </div>
-                  )
-                )}
-              </div>
-            )}
+  {/* ✅ DESKTOP DROPDOWN */}
+  {openDropdown === 1 && window.innerWidth > 480 && (
+    <div className="dropdown-menu">
+      {["Dubai", "United Kingdom", "Oman", "Paris", "London", "New York"].map(
+        (loc) => (
+          <div
+            key={loc}
+            onClick={() => {
+              setSelectedLocation(loc);
+              setOpenDropdown(null);
+            }}
+          >
+            {loc}
           </div>
+        )
+      )}
+    </div>
+  )}
+</div>
+
 
           {/* DATE */}
-          <div
-            className="filter-item"
-            ref={calendarRef}
-            onClick={() => setShowCalendar(!showCalendar)}
-          >
-            {selectedDate ? selectedDate.toDateString() : "Select Date"}
-            <span className="arrow"><IoIosArrowDown /></span>
+        <div
+  className="filter-item"
+  ref={calendarRef}
+  onClick={() => {
+    if (window.innerWidth <= 480) {
+      setMobileSheet("date");
+    } else {
+      setShowCalendar(!showCalendar);
+    }
+  }}
+>
+  {selectedDate ? selectedDate.toDateString() : "Select Date"}
+  <span className="arrow"><IoIosArrowDown /></span>
 
-            {showCalendar && (
-              <div className="calendar-popup">
-                <Calendar
-                  onChange={(date) => {
-                    setSelectedDate(date);
-                    setShowCalendar(false);
-                  }}
-                  value={selectedDate}
-                />
-              </div>
-            )}
-          </div>
+  {/* ✅ DESKTOP CALENDAR */}
+  {showCalendar && window.innerWidth > 480 && (
+    <div className="calendar-popup">
+      <Calendar
+        onChange={(date) => {
+          setSelectedDate(date);
+          setShowCalendar(false);
+        }}
+        value={selectedDate}
+      />
+    </div>
+  )}
+</div>
+
+
 
           {/* EVENT */}
           <div className="filter-item">
@@ -183,6 +200,50 @@ function Hero() {
           </SwiperSlide>
         ))}
       </Swiper>
+{/* ================= MOBILE BOTTOM SHEET ================= */}
+{mobileSheet && (
+  <div className="mobile-sheet-overlay" onClick={() => setMobileSheet(null)}>
+    <div
+      className="mobile-sheet"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="sheet-handle"></div>
+
+      {mobileSheet === "location" && (
+        <>
+          <h3>Select Location</h3>
+          {["Dubai", "United Kingdom", "Oman", "Paris", "London", "New York"].map(
+            (loc) => (
+              <div
+                key={loc}
+                className="sheet-item"
+                onClick={() => {
+                  setSelectedLocation(loc);
+                  setMobileSheet(null);
+                }}
+              >
+                {loc}
+              </div>
+            )
+          )}
+        </>
+      )}
+
+      {mobileSheet === "date" && (
+        <>
+          <h3>Select Date</h3>
+          <Calendar
+            onChange={(date) => {
+              setSelectedDate(date);
+              setMobileSheet(null);
+            }}
+            value={selectedDate}
+          />
+        </>
+      )}
+    </div>
+  </div>
+)}
 
     </section>
   );
